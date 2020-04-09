@@ -18,11 +18,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     iee754converter.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    operaciones.cpp
 
 HEADERS += \
     iee754converter.h \
-    mainwindow.h
+    mainwindow.h \
+    operaciones.h
 
 FORMS += \
     mainwindow.ui
