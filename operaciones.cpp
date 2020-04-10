@@ -61,6 +61,7 @@ Suma::Suma()
     this->g = 0;
     this->r = 0;
     this->st = 0;
+    this->n = 24;
     this->operandosIntercambiados = false;
     this->complemento_P = false;
 }
@@ -117,12 +118,20 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
     }
     //PASO 8
     // RELLENAR
+    int acarreo = 0;
 
     //PASO 9
-    // RELLENAR
+    if(signoA != signoB && mantisaBBinaria[this->n - 1] == 1 && acarreo == 0) {
+        mantisaBBinaria = complemento2(mantisaBBinaria, mantisaB);
+        complemento_P = true;
+    }
 
     //PASO 10
-    // RELLENAR
+    if(signoA == signoB && acarreo == 1){
+        if(g || r || st == 0){
+
+        }
+    }
 
     //PASO 11
     // RELLENAR
