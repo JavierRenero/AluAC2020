@@ -1,8 +1,57 @@
 #include "operaciones.h"
 #include <QDebug>
 
-int Operaciones::complemento2(int numero) {
-    return ~numero + 1;
+int * Operaciones::complemento2(int binario[], int &numeroDecimal) {
+    numeroDecimal = ~numeroDecimal + 1;
+    for(int i = 0; i < 23; i++) {
+        if(binario[i]  == 0) {
+            binario[i] = 1;
+        } else {
+            binario[i] = 0;
+        }
+    }
+    int * doses = binario;
+    for(int i  = 22; i >=0; i--) {
+        if(binario[i] == 1) {
+            doses[i] = 0;
+        } else {
+            doses[i] = 1;
+            break;
+        }
+    }
+    return doses;
+}
+
+int * Operaciones::conversorBinario(int decimal) {
+    int * binario = new int[23];
+    int contador = 22;
+    for(int i = 0; i<23; i++){
+        binario[i] = 0;
+    }
+    if (decimal > 0) {
+        while(decimal >= 1){
+            if(decimal % 2 != 0) {
+                binario[contador] = 1;
+            }
+            decimal = decimal/2;
+            contador--;
+        }
+    }
+    return binario;
+}
+
+int * Operaciones:: desplazarBits(int binario[], bool ceros, int desplazamientos) {
+    int contador = 0;
+    int sustituto = 1;
+    if(ceros) sustituto=0;
+    while(contador < desplazamientos) {
+        for(int i = 23; i > 0; i--) {
+            binario[i] = binario[i-1];
+        }
+        contador++;
+        binario[0] = sustituto;
+    }
+    return binario;
 }
 
 Suma::Suma()
@@ -35,23 +84,39 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
     int diferencia = exponenteA - exponenteB;
 
     //PASO 4
+    int  * mantisaBBinaria = new int[23];
+    mantisaBBinaria = conversorBinario(mantisaB);;
     if(exponenteA != exponenteB) {
-        mantisaB = complemento2(mantisaB); // CREO QUE ESTA BIEN SI ALGO SALE MAS AL FINAL REVISAR
+        mantisaBBinaria = complemento2(mantisaBBinaria, mantisaB);
     }
 
-    //PASO 5
-    int P = mantisaB;
+    // PASO 5
+    // YA RELIZADO
 
     //PASO 6
-    //RELLENAR
+    if(22 - diferencia + 1 < 23) {
+        g = mantisaBBinaria[22 - diferencia + 1];
+    }
+    if(22 - diferencia + 2 < 23) {
+        r = mantisaBBinaria[22 - diferencia + 2];
+    }
+    int n = 3;
+    while(22 - diferencia + n < 23) {
+        if(mantisaBBinaria[22 - diferencia + n] == 1){
+            st = 1;
+        }
+    }
 
     //PASO 7
     if (signoA != signoB) {
-        // RELLENAR
+        mantisaBBinaria = desplazarBits(mantisaBBinaria, false, diferencia);
     } else {
-        // RELLENAR
+        mantisaBBinaria = desplazarBits(mantisaBBinaria, true, diferencia);
     }
 
+    for(int i = 0; i<23; i++){
+        printf("%d", mantisaBBinaria[i]);
+    }
     //PASO 8
     // RELLENAR
 

@@ -1,10 +1,15 @@
 #ifndef OPERACIONES_H
 #define OPERACIONES_H
+#include <vector>
+
+using namespace std;
 
 class Operaciones
 {
 public:
-    int complemento2(int numero);
+    int * complemento2(int binario[], int &numeroDecimal);
+    int * conversorBinario(int decimal);
+    int * desplazarBits(int binario[], bool ceros, int desplazamientos);
 };
 
 class Suma : Operaciones
