@@ -3,7 +3,7 @@
 
 int * Operaciones::complemento2(int binario[], int &numeroDecimal) {
     numeroDecimal = ~numeroDecimal + 1;
-    for(int i = 0; i < 23; i++) {
+    for(int i = 0; i < 24; i++) {
         if(binario[i]  == 0) {
             binario[i] = 1;
         } else {
@@ -11,7 +11,7 @@ int * Operaciones::complemento2(int binario[], int &numeroDecimal) {
         }
     }
     int * doses = binario;
-    for(int i  = 22; i >=0; i--) {
+    for(int i  = 23; i >=0; i--) {
         if(binario[i] == 1) {
             doses[i] = 0;
         } else {
@@ -23,9 +23,9 @@ int * Operaciones::complemento2(int binario[], int &numeroDecimal) {
 }
 
 int * Operaciones::conversorBinario(int decimal) {
-    int * binario = new int[23];
-    int contador = 22;
-    for(int i = 0; i<23; i++){
+    int * binario = new int[24];
+    int contador = 23;
+    for(int i = 0; i<24; i++){
         binario[i] = 0;
     }
     if (decimal > 0) {
@@ -37,6 +37,7 @@ int * Operaciones::conversorBinario(int decimal) {
             contador--;
         }
     }
+    binario[0] = 1;
     return binario;
 }
 
@@ -45,7 +46,7 @@ int * Operaciones:: desplazarBits(int binario[], bool ceros, int desplazamientos
     int sustituto = 1;
     if(ceros) sustituto=0;
     while(contador < desplazamientos) {
-        for(int i = 23; i > 0; i--) {
+        for(int i = 24; i > 0; i--) {
             binario[i] = binario[i-1];
         }
         contador++;
@@ -83,15 +84,12 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
     int exponenteSuma = exponenteA;
     int diferencia = exponenteA - exponenteB;
 
-    //PASO 4
+    //PASO 4 Y PASO 5
     int  * mantisaBBinaria = new int[23];
-    mantisaBBinaria = conversorBinario(mantisaB);;
+    mantisaBBinaria = conversorBinario(mantisaB);
     if(exponenteA != exponenteB) {
         mantisaBBinaria = complemento2(mantisaBBinaria, mantisaB);
     }
-
-    // PASO 5
-    // YA RELIZADO
 
     //PASO 6
     if(22 - diferencia + 1 < 23) {
@@ -114,7 +112,7 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
         mantisaBBinaria = desplazarBits(mantisaBBinaria, true, diferencia);
     }
 
-    for(int i = 0; i<23; i++){
+    for(int i = 0; i<24; i++){
         printf("%d", mantisaBBinaria[i]);
     }
     //PASO 8
