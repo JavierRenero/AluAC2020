@@ -55,6 +55,15 @@ int * Operaciones:: desplazarBits(int binario[], bool ceros, int desplazamientos
     return binario;
 }
 
+int * Operaciones:: sumaBinario(int binario1[], int binario2[], int &acarreo) {
+    int * resultado = new int[24];
+    for(int i = 0; i<24; i++){
+        resultado[i] = ((binario1[i] ^ binario2[i]) ^ acarreo);
+        acarreo = ((binario1[i] & binario2[i]) | (binario1[i] & acarreo)) | (binario2[i] & acarreo);
+    }
+    return resultado;
+}
+
 Suma::Suma()
 {
     // PASO 1
@@ -94,14 +103,14 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
 
     //PASO 6
     if(22 - diferencia + 1 < 23) {
-        g = mantisaBBinaria[22 - diferencia + 1];
+        g = mantisaBBinaria[23 - diferencia + 1];
     }
     if(22 - diferencia + 2 < 23) {
-        r = mantisaBBinaria[22 - diferencia + 2];
+        r = mantisaBBinaria[23 - diferencia + 2];
     }
     int n = 3;
     while(22 - diferencia + n < 23) {
-        if(mantisaBBinaria[22 - diferencia + n] == 1){
+        if(mantisaBBinaria[23 - diferencia + n] == 1){
             st = 1;
         }
     }
@@ -112,13 +121,23 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
     } else {
         mantisaBBinaria = desplazarBits(mantisaBBinaria, true, diferencia);
     }
-
+    //PASO 8
+    int * mantisaABinaria = conversorBinario(mantisaA);
+    for(int i = 0; i<24; i++){
+        printf("%d", mantisaABinaria[i]);
+    }
+    printf("\n");
     for(int i = 0; i<24; i++){
         printf("%d", mantisaBBinaria[i]);
     }
-    //PASO 8
-    // RELLENAR
+    printf("\n");
     int acarreo = 0;
+    mantisaBBinaria = sumaBinario(mantisaABinaria, mantisaBBinaria, acarreo);
+    for(int i = 0; i<24; i++){
+        printf("%d", mantisaBBinaria[i]);
+    }
+    printf("\n");
+
 
     //PASO 9
     if(signoA != signoB && mantisaBBinaria[this->n - 1] == 1 && acarreo == 0) {

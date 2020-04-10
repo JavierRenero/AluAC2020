@@ -10,6 +10,7 @@ public:
     int * complemento2(int binario[], int &numeroDecimal);
     int * conversorBinario(int decimal);
     int * desplazarBits(int binario[], bool ceros, int desplazamientos);
+    int * sumaBinario(int binario1[], int binario2[], int &acarreo);
 };
 
 class Suma : Operaciones
