@@ -57,9 +57,10 @@ int * Operaciones:: desplazarBits(int binario[], bool ceros, int desplazamientos
 
 int * Operaciones:: sumaBinario(int binario1[], int binario2[], int &acarreo) {
     int * resultado = new int[24];
-    for(int i = 0; i<24; i++){
-        resultado[i] = ((binario1[i] ^ binario2[i]) ^ acarreo);
-        acarreo = ((binario1[i] & binario2[i]) | (binario1[i] & acarreo)) | (binario2[i] & acarreo);
+    for(int i = 23; i >= 0; i--){
+        resultado[i] = (binario1[i] + binario2[i] + acarreo) % 2;
+        if(binario1[i] + binario2[i] + acarreo > 1)
+            acarreo = 1;
     }
     return resultado;
 }
@@ -123,24 +124,11 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
     }
     //PASO 8
     int * mantisaABinaria = conversorBinario(mantisaA);
-    for(int i = 0; i<24; i++){
-        printf("%d", mantisaABinaria[i]);
-    }
-    printf("\n");
-    for(int i = 0; i<24; i++){
-        printf("%d", mantisaBBinaria[i]);
-    }
-    printf("\n");
     int acarreo = 0;
     mantisaBBinaria = sumaBinario(mantisaABinaria, mantisaBBinaria, acarreo);
-    for(int i = 0; i<24; i++){
-        printf("%d", mantisaBBinaria[i]);
-    }
-    printf("\n");
-
 
     //PASO 9
-    if(signoA != signoB && mantisaBBinaria[this->n - 1] == 1 && acarreo == 0) {
+    if(signoA != signoB && mantisaBBinaria[0] == 1 && acarreo == 0) {
         mantisaBBinaria = complemento2(mantisaBBinaria, mantisaB);
         complemento_P = true;
     }
@@ -153,12 +141,24 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
     }
 
     //PASO 11
-    // RELLENAR
+    if ((r == 1 && st == 1) || (r == 1 && st == 0 && mantisaBBinaria[23])){
+
+    }
 
     //PASO 12
-    // RELLENAR
+    int signoSuma;
+    if (!operandosIntercambiados && complemento_P){
+        signoSuma = signoB;
+    } else {
+        signoSuma = signoA;
+    }
 
     //PASO 13
     // RELLENAR
+
+    for(int i = 0; i<24; i++){
+        printf("%d", mantisaBBinaria[i]);
+    }
+    printf("\n");
     return 0;
 }
