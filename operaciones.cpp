@@ -41,7 +41,7 @@ int * Operaciones::conversorBinario(int decimal) {
     return binario;
 }
 
-int * Operaciones:: desplazarBits(int binario[], bool ceros, int desplazamientos) {
+int * Operaciones:: desplazarBitsDerecha(int binario[], bool ceros, int desplazamientos) {
     int contador = 0;
     int sustituto = 1;
     if(ceros) sustituto=0;
@@ -55,6 +55,20 @@ int * Operaciones:: desplazarBits(int binario[], bool ceros, int desplazamientos
     return binario;
 }
 
+int * Operaciones:: desplazarBitsIzquierda(int binario[], bool ceros, int desplazamientos) {
+    int contador = 0;
+    int sustituto = 1;
+    if(ceros) sustituto=0;
+    while(contador < desplazamientos) {
+        for(int i = 0; i < 24; i++) {
+            binario[i] = binario[i+1];
+        }
+        contador++;
+        binario[23] = sustituto;
+    }
+    return binario;
+}
+
 int * Operaciones:: sumaBinario(int binario1[], int binario2[], int &acarreo) {
     int * resultado = new int[24];
     for(int i = 23; i >= 0; i--){
@@ -63,6 +77,16 @@ int * Operaciones:: sumaBinario(int binario1[], int binario2[], int &acarreo) {
             acarreo = 1;
     }
     return resultado;
+}
+
+int Operaciones:: mantisaNormalizada(int binario[]) {
+    int contador = 0;
+    while(contador < 24){
+        if(binario[contador] == 1)
+            return contador;
+        contador++;
+    }
+    return contador;
 }
 
 Suma::Suma()
@@ -118,9 +142,9 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
 
     //PASO 7
     if (signoA != signoB) {
-        mantisaBBinaria = desplazarBits(mantisaBBinaria, false, diferencia);
+        mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, false, diferencia);
     } else {
-        mantisaBBinaria = desplazarBits(mantisaBBinaria, true, diferencia);
+        mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, true, diferencia);
     }
     //PASO 8
     int * mantisaABinaria = conversorBinario(mantisaA);
@@ -133,16 +157,41 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
         complemento_P = true;
     }
 
+    for(int i = 0; i<24; i++){
+        printf("%d", mantisaBBinaria[i]);
+    }
+    printf("\n");
+
     //PASO 10
     if(signoA == signoB && acarreo == 1){
         if(g || r || st == 0){
-
+            st = 0;
+            r = mantisaBBinaria[this->n - 1];
         }
+        mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, false, 1);
+    } else {
+        int k = mantisaNormalizada(mantisaBBinaria);
+        if(k == 0){
+            if(r || st == 0)
+                st = 0;
+            else
+                st = 1;
+        } else {
+            r = 0;
+            st = 0;
+        }
+        mantisaBBinaria = desplazarBitsIzquierda(mantisaBBinaria, true, k);
+        exponenteSuma -= k;
     }
 
     //PASO 11
+    int c2 = 0;
     if ((r == 1 && st == 1) || (r == 1 && st == 0 && mantisaBBinaria[23])){
-
+        // mantisaBBinaria = sumaBinario(mantisaBBinaria, 1, c2);
+        if(c2 == 1) {
+            mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, true, 1);
+            exponenteSuma += 1;
+        }
     }
 
     //PASO 12
