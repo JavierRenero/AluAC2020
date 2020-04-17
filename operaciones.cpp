@@ -75,6 +75,8 @@ int * Operaciones:: sumaBinario(int binario1[], int binario2[], int &acarreo) {
         resultado[i] = (binario1[i] + binario2[i] + acarreo) % 2;
         if(binario1[i] + binario2[i] + acarreo > 1)
             acarreo = 1;
+        else
+            acarreo = 0;
     }
     return resultado;
 }
@@ -113,6 +115,7 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
            exponenteB = exponenteAAux;
            mantisaB = mantisaAAux;
            operandosIntercambiados = true;
+           printf("PASO 2\n");
     }
 
     //PASO 3
@@ -122,8 +125,10 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
     //PASO 4 Y PASO 5
     int  * mantisaBBinaria = new int[23];
     mantisaBBinaria = conversorBinario(mantisaB);
-    if(exponenteA != exponenteB) {
+
+    if(signoA != signoB) {
         mantisaBBinaria = complemento2(mantisaBBinaria, mantisaB);
+        printf("PASO 4\n");
     }
 
     //PASO 6
@@ -143,9 +148,12 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
     //PASO 7
     if (signoA != signoB) {
         mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, false, diferencia);
+        printf("PASO 7 A\n");
     } else {
         mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, true, diferencia);
+        printf("PASO 7 B\n");
     }
+
     //PASO 8
     int * mantisaABinaria = conversorBinario(mantisaA);
     int acarreo = 0;
@@ -193,6 +201,11 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
             exponenteSuma += 1;
         }
     }
+
+    for(int i = 0; i<24; i++){
+        printf("%d", mantisaBBinaria[i]);
+    }
+    printf("\n");
 
     //PASO 12
     int signoSuma;
