@@ -13,6 +13,7 @@ public:
     int * desplazarBitsIzquierda(int binario[], bool ceros, int desplazamientos);
     int * sumaBinario(int binario1[], int binario2[], int &acarreo);
     int  mantisaNormalizada(int binario[]);
+    int conversorDecimal(int binario[]);
 };
 
 class Suma : Operaciones

@@ -1,5 +1,6 @@
 #include "operaciones.h"
 #include <QDebug>
+#include "iee754converter.h"
 
 int * Operaciones::complemento2(int binario[], int &numeroDecimal) {
     numeroDecimal = ~numeroDecimal + 1;
@@ -91,6 +92,18 @@ int Operaciones:: mantisaNormalizada(int binario[]) {
     return contador;
 }
 
+int Operaciones:: conversorDecimal(int binario[]) {
+    int decimal = 0;
+    int contador = 0;
+    for(int i = 23; i >= 0; i--) {
+        if(binario[i] == 1) {
+            decimal += 2^contador;
+        }
+        contador++;
+    }
+    return decimal;
+}
+
 Suma::Suma()
 {
     // PASO 1
@@ -128,7 +141,6 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
 
     if(signoA != signoB) {
         mantisaBBinaria = complemento2(mantisaBBinaria, mantisaB);
-        printf("PASO 4\n");
     }
 
     //PASO 6
@@ -148,10 +160,8 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
     //PASO 7
     if (signoA != signoB) {
         mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, false, diferencia);
-        printf("PASO 7 A\n");
     } else {
         mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, true, diferencia);
-        printf("PASO 7 B\n");
     }
 
     //PASO 8
@@ -165,17 +175,14 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
         complemento_P = true;
     }
 
-    for(int i = 0; i<24; i++){
-        printf("%d", mantisaBBinaria[i]);
-    }
-    printf("\n");
-
     //PASO 10
     if(signoA == signoB && acarreo == 1){
         if(g || r || st == 0){
             st = 0;
-            r = mantisaBBinaria[this->n - 1];
+        } else {
+            st = 1;
         }
+        r = mantisaBBinaria[this->n - 1];
         mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, false, 1);
     } else {
         int k = mantisaNormalizada(mantisaBBinaria);
@@ -194,12 +201,17 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
 
     //PASO 11
     int c2 = 0;
-    if ((r == 1 && st == 1) || (r == 1 && st == 0 && mantisaBBinaria[23])){
+    if ((r == 1 && st == 1) || (r == 1 && st == 0 && mantisaBBinaria[23] == 1)){
         // mantisaBBinaria = sumaBinario(mantisaBBinaria, 1, c2);
         if(c2 == 1) {
             mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, true, 1);
             exponenteSuma += 1;
         }
+    }
+
+    int * mantisaSumaNormalizada = new int[23];
+    for(int i = 23; i >= 0; i--) {
+        mantisaSumaNormalizada[i] = mantisaBBinaria[i];
     }
 
     for(int i = 0; i<24; i++){
@@ -216,11 +228,11 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
     }
 
     //PASO 13
-    // RELLENAR
+    IEEToFloat iee = IEEToFloat(signoSuma, exponenteSuma, conversorDecimal(mantisaSumaNormalizada));
 
-    for(int i = 0; i<24; i++){
-        printf("%d", mantisaBBinaria[i]);
+    for(int i = 0; i<23; i++){
+        printf("%d", mantisaSumaNormalizada[i]);
     }
-    printf("\n");
-    return 0;
+    printf("\n%d\n%d\n", signoSuma, exponenteSuma);
+    return iee.getNumber();
 }

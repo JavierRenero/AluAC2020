@@ -32,6 +32,7 @@ void MainWindow::on_calcularButton_clicked()
     if(ui->sumaButton->isChecked()) {
         Suma suma = Suma();
         resultado = suma.realizarOperaciones(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
+        ui->resultText->setText(QString::number(resultado));
     }
 }
 
