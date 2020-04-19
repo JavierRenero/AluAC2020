@@ -33,6 +33,10 @@ void MainWindow::on_calcularButton_clicked()
         Suma suma = Suma();
         resultado = suma.realizarOperaciones(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
         ui->resultText->setText(QString::number(resultado));
+    } else if (ui->multiplicacionButton->isChecked()){
+        Multiplicacion multiplicacion = Multiplicacion();
+        resultado = multiplicacion.comaFlotante(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
+        ui->resultText->setText(QString::number(resultado));
     }
 }
 

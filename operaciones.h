@@ -28,6 +28,11 @@ private:
 
 class Multiplicacion : Operaciones
 {
+public:
+    Multiplicacion();
+    float comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
+    float multiplicacionSinSigno();
+private:
 
 };
 

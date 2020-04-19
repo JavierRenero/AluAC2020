@@ -228,3 +228,41 @@ float Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int si
     IEEToFloat iee = IEEToFloat(signoSuma, exponenteSuma, conversorDecimal(mantisaSumaNormalizada));
     return iee.getNumber();
 }
+
+float Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB) {
+    //PASO 1
+
+
+
+
+
+    // PASO 2
+
+
+
+
+    // PASO 3
+
+
+
+    // DESBORDAMIENTOS
+    // 1
+    // 2
+
+
+    return 0;
+}
+
+float Multiplicacion::multiplicacionSinSigno() {
+    // PASO 1
+
+
+    // PASO 2
+
+
+
+    // PASO 3
+
+    return 0;
+}
+
