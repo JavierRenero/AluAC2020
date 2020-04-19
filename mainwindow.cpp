@@ -28,7 +28,7 @@ void MainWindow::on_calcularButton_clicked()
     int signoB = ieeConverterB.getSigno();
     int exponenteB = ieeConverterB.getExponente();
     int mantisaB = ieeConverterB.getFraccionaria();
-    int resultado;
+    float resultado;
     if(ui->sumaButton->isChecked()) {
         Suma suma = Suma();
         resultado = suma.realizarOperaciones(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);

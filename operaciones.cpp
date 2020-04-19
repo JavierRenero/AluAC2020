@@ -1,6 +1,7 @@
 #include "operaciones.h"
 #include <QDebug>
 #include "iee754converter.h"
+#include "math.h"
 
 int * Operaciones::complemento2(int binario[], int &numeroDecimal) {
     numeroDecimal = ~numeroDecimal + 1;
@@ -95,9 +96,9 @@ int Operaciones:: mantisaNormalizada(int binario[]) {
 int Operaciones:: conversorDecimal(int binario[]) {
     int decimal = 0;
     int contador = 0;
-    for(int i = 23; i >= 0; i--) {
+    for(int i = 22; i >= 0; i--) {
         if(binario[i] == 1) {
-            decimal += 2^contador;
+            decimal += pow(2, contador);
         }
         contador++;
     }
@@ -115,7 +116,7 @@ Suma::Suma()
     this->complemento_P = false;
 }
 
-int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB){
+float Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB){
     //PASO 2
     if(exponenteA < exponenteB) {
            int signoAAux = signoA;
@@ -184,6 +185,7 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
         }
         r = mantisaBBinaria[this->n - 1];
         mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, false, 1);
+        exponenteSuma++;
     } else {
         int k = mantisaNormalizada(mantisaBBinaria);
         if(k == 0){
@@ -205,19 +207,14 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
         // mantisaBBinaria = sumaBinario(mantisaBBinaria, 1, c2);
         if(c2 == 1) {
             mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, true, 1);
-            exponenteSuma += 1;
+            exponenteSuma++;
         }
     }
 
     int * mantisaSumaNormalizada = new int[23];
-    for(int i = 23; i >= 0; i--) {
-        mantisaSumaNormalizada[i] = mantisaBBinaria[i];
+    for(int i = 22; i >= 0; i--) {
+        mantisaSumaNormalizada[i] = mantisaBBinaria[i+1];
     }
-
-    for(int i = 0; i<24; i++){
-        printf("%d", mantisaBBinaria[i]);
-    }
-    printf("\n");
 
     //PASO 12
     int signoSuma;
@@ -229,10 +226,5 @@ int Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int sign
 
     //PASO 13
     IEEToFloat iee = IEEToFloat(signoSuma, exponenteSuma, conversorDecimal(mantisaSumaNormalizada));
-
-    for(int i = 0; i<23; i++){
-        printf("%d", mantisaSumaNormalizada[i]);
-    }
-    printf("\n%d\n%d\n", signoSuma, exponenteSuma);
     return iee.getNumber();
 }

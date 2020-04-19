@@ -30,7 +30,7 @@ class IEEToFloat
 public:
     IEEToFloat();
     IEEToFloat(int signo, int exponente, int fraccionaria);
-    int getNumber();
+    float getNumber();
 private:
     union Code a;
 };

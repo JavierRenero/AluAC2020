@@ -25,6 +25,6 @@ IEEToFloat::IEEToFloat(int signo, int exponente, int fraccionaria)
     this->a.bitfield.partFrac = fraccionaria;
 }
 
-int IEEToFloat::getNumber(){
+float IEEToFloat::getNumber(){
     return this->a.numero;
 }

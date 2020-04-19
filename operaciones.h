@@ -20,7 +20,7 @@ class Suma : Operaciones
 {
 public:
     Suma();
-    int realizarOperaciones(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
+    float realizarOperaciones(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
 private:
     int g, r, st, n;
     bool operandosIntercambiados, complemento_P;
