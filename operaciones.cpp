@@ -129,7 +129,6 @@ float Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int si
            exponenteB = exponenteAAux;
            mantisaB = mantisaAAux;
            operandosIntercambiados = true;
-           printf("PASO 2\n");
     }
 
     //PASO 3
@@ -227,6 +226,10 @@ float Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int si
     //PASO 13
     IEEToFloat iee = IEEToFloat(signoSuma, exponenteSuma, conversorDecimal(mantisaSumaNormalizada));
     return iee.getNumber();
+}
+
+Multiplicacion::Multiplicacion(){
+
 }
 
 float Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB) {
