@@ -31,9 +31,20 @@ class Multiplicacion : Operaciones
 public:
     Multiplicacion();
     float comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
-    float multiplicacionSinSigno();
 private:
 
+};
+
+class MultiplicacionSinSigno : Operaciones
+{
+public:
+    MultiplicacionSinSigno(int mantisaA, int mantisaB);
+    int * getP();
+    int * getA();
+private:
+    int * P;
+    int * A;
+    int * B;
 };
 
 class Division : Operaciones

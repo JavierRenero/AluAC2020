@@ -234,18 +234,36 @@ Multiplicacion::Multiplicacion(){
 
 float Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB) {
     //PASO 1
-
-
-
-
+    int signoProducto = signoA * signoB;
 
     // PASO 2
-
-
-
+    int exponenteProducto = (exponenteA-127) + (exponenteB-127) + 127;
 
     // PASO 3
+    MultiplicacionSinSigno resultSinSigno = MultiplicacionSinSigno(mantisaA, mantisaB);
+    int * A = resultSinSigno.getA();
+    int * P = resultSinSigno.getP();
+    if(P[0] == 0) {
+        int auxA = A[0];
+        A = desplazarBitsIzquierda(A, true, 1);
+        P = desplazarBitsIzquierda(P, auxA == 0, 1);
+    } else {
+        exponenteProducto++;
+    }
 
+    int r = A[0];
+    int st = 0;
+    for(int i = 0; i < 23; i++) {
+        if(A[i+1] == 1) {
+            st = 1;
+        }
+    }
+
+    int c = 0;
+    if((r == 1 && st == 1) || (r == 1 && st == 0 && P[23] == 1)) {
+        // HAY QUE SUMAR 1 a P
+        //P = sumaBinario(P, 1, c);
+    }
 
 
     // DESBORDAMIENTOS
@@ -256,16 +274,36 @@ float Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA, int
     return 0;
 }
 
-float Multiplicacion::multiplicacionSinSigno() {
+MultiplicacionSinSigno::MultiplicacionSinSigno(int mantisaA, int mantisaB) {
     // PASO 1
-
+    int i;
+    int * A = conversorBinario(mantisaA);
+    int * B = conversorBinario(mantisaB);
+    int * P = new int[24];
+    for(i = 0; i < 24; i++){
+        P[i] = 0;
+    }
 
     // PASO 2
-
-
+    for(i = 0; i < 24; i++) {
+        int c = 0;
+        if(A[23] == 1) {
+            P = sumaBinario(P, B, c);
+        }
+        int aux = P[23];
+        P = desplazarBitsDerecha(P, c == 0, 1);
+        A = desplazarBitsDerecha(A, aux == 0, 1);
+    }
 
     // PASO 3
+    // CONSISTE EN DEVOLVER EL RESULTADO ES DECIR A Y B
+}
 
-    return 0;
+int * MultiplicacionSinSigno:: getP(){
+    return this->P;
+}
+
+int * MultiplicacionSinSigno:: getA(){
+    return this->A;
 }
 
