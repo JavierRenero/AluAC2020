@@ -167,19 +167,19 @@ float Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int si
 
     //PASO 6
     if(22 - d + 1 < 23) {
-        g = mantisaBBinaria[23 - d + 1];
+        g = mantisaBBinaria[d];
     }
     if(22 - d + 2 < 23) {
-        r = mantisaBBinaria[23 - d + 2];
+        r = mantisaBBinaria[d-1];
     }
-    int n = 3;
-    while(22 - d + n < 23) {
-        if(mantisaBBinaria[23 - d + n] == 1){
+    int n = 2;
+    while(23 - d + n < 23) {
+        if(mantisaBBinaria[d - n] == 1){
             st = 1;
         }
-        d--;
+        n++;
     }
-    qDebug() << "PASO 6\n" << "G: " << g << "\nR: " << r << "ST: " << st;
+    qDebug() << "PASO 6\n" << "G: " << g << "\nR: " << r << "\nST: " << st;
 
 
     //PASO 7
