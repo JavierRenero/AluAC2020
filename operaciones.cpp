@@ -2,6 +2,9 @@
 #include <QDebug>
 #include "iee754converter.h"
 #include "math.h"
+#define MAX_REPRESENTABLE 150
+#define EXPONENTE_MINIMO 127
+#define TAM_MANTISA 24
 
 int * Operaciones::complemento2(int binario[], int &numeroDecimal) {
     numeroDecimal = ~numeroDecimal + 1;
@@ -25,9 +28,9 @@ int * Operaciones::complemento2(int binario[], int &numeroDecimal) {
 }
 
 int * Operaciones::conversorBinario(int decimal) {
-    int * binario = new int[24];
-    int contador = 23;
-    for(int i = 0; i<24; i++){
+    int * binario = new int[23];
+    int contador = 22;
+    for(int i = 0; i<23; i++){
         binario[i] = 0;
     }
     if (decimal > 0) {
@@ -39,7 +42,24 @@ int * Operaciones::conversorBinario(int decimal) {
             contador--;
         }
     }
-    binario[0] = 1;
+    return binario;
+}
+
+int * Operaciones::conversorBinarioExponente(int decimal) {
+    int * binario = new int[8];
+    int contador = 7;
+    for(int i = 0; i<8; i++){
+        binario[i] = 0;
+    }
+    if (decimal > 0) {
+        while(decimal >= 1){
+            if(decimal % 2 != 0) {
+                binario[contador] = 1;
+            }
+            decimal = decimal/2;
+            contador--;
+        }
+    }
     return binario;
 }
 
@@ -93,7 +113,7 @@ int Operaciones:: mantisaNormalizada(int binario[]) {
     return contador;
 }
 
-int Operaciones:: conversorDecimal(int binario[]) {
+int Operaciones:: conversorEnteros(int binario[]) {
     int decimal = 0;
     int contador = 0;
     for(int i = 22; i >= 0; i--) {
@@ -101,6 +121,18 @@ int Operaciones:: conversorDecimal(int binario[]) {
             decimal += pow(2, contador);
         }
         contador++;
+    }
+    return decimal;
+}
+
+float Operaciones:: conversorDecimal(int binario[]) {
+    float decimal = 0;
+    int contador = -1;
+    for(int i = 0; i < 23; i++) {
+        if(binario[i] == 1) {
+            decimal += pow(2, contador);
+        }
+        contador--;
     }
     return decimal;
 }
@@ -224,7 +256,7 @@ float Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int si
     }
 
     //PASO 13
-    IEEToFloat iee = IEEToFloat(signoSuma, exponenteSuma, conversorDecimal(mantisaSumaNormalizada));
+    IEEToFloat iee = IEEToFloat(signoSuma, exponenteSuma, conversorEnteros(mantisaSumaNormalizada));
     return iee.getNumber();
 }
 
@@ -268,8 +300,36 @@ float Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA, int
 
     // DESBORDAMIENTOS
     // 1
+    if(exponenteProducto > MAX_REPRESENTABLE) {
+        return 0;
+    }
     // 2
+    int t;
+    if(exponenteProducto < EXPONENTE_MINIMO) {
+        t = EXPONENTE_MINIMO - exponenteProducto;
+        if (t > TAM_MANTISA) {
+            return 0;
+        } else {
+            A = desplazarBitsDerecha(A, true, t);
+            P = desplazarBitsDerecha(P, true, t);
+            exponenteProducto = EXPONENTE_MINIMO;
+        }
+    }
+    int t1;
+    int t2;
+    if (exponenteProducto > EXPONENTE_MINIMO) {
+        t1 = exponenteProducto - EXPONENTE_MINIMO;
+        t2 = mantisaNormalizada(P);
+        if (t1 < t2) t = t1;
+        else t = t2;
+        exponenteProducto -= t;
+        P = desplazarBitsIzquierda(P, true, t);
+        A = desplazarBitsIzquierda(A, true, t);
+    } else if (exponenteProducto == EXPONENTE_MINIMO) {
 
+    }
+
+    // OPERANDOS 0
 
     return 0;
 }
@@ -306,4 +366,48 @@ int * MultiplicacionSinSigno:: getP(){
 int * MultiplicacionSinSigno:: getA(){
     return this->A;
 }
+
+Division::Division(){
+
+}
+
+float Division::divisionCompaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB){
+    int * mantisaABinaria = new int[23];
+    int * mantisaBBinaria = new int[23];
+    mantisaABinaria = conversorBinario(mantisaA);
+    mantisaBBinaria = conversorBinario(mantisaB);
+
+    int * mantisaABinariaFinal = new int[24];
+    int * mantisaBBinariaFinal = new int[24];
+    for(int i=0; i<23; i++){
+        mantisaABinariaFinal[i+1] = mantisaABinaria[i];
+        mantisaBBinariaFinal[i+1] = mantisaBBinaria[i];
+    }
+    float mantisaADecimal = conversorDecimal(mantisaABinaria);
+    float mantisaBDecimal = conversorDecimal(mantisaBBinaria);
+    mantisaADecimal += 1;
+    mantisaBDecimal += 1;
+    qDebug() << mantisaADecimal;
+    qDebug() << mantisaBDecimal;
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

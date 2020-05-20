@@ -37,6 +37,10 @@ void MainWindow::on_calcularButton_clicked()
         Multiplicacion multiplicacion = Multiplicacion();
         resultado = multiplicacion.comaFlotante(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
         ui->resultText->setText(QString::number(resultado));
+    } else if (ui->divisionButton->isChecked()){
+        Division div = Division();
+        resultado = div.divisionCompaFlotante(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
+        ui->resultText->setText(QString::number(resultado));
     }
 }
 
