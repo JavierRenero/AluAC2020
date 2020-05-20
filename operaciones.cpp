@@ -27,10 +27,10 @@ int * Operaciones::complemento2(int binario[], int &numeroDecimal) {
     return doses;
 }
 
-int * Operaciones::conversorBinario(int decimal) {
-    int * binario = new int[23];
-    int contador = 22;
-    for(int i = 0; i<23; i++){
+int * Operaciones::conversorBinario(int decimal, int tam) {
+    int * binario = new int[tam];
+    int contador = tam-1;
+    for(int i = 0; i<tam; i++){
         binario[i] = 0;
     }
     if (decimal > 0) {
@@ -42,24 +42,7 @@ int * Operaciones::conversorBinario(int decimal) {
             contador--;
         }
     }
-    return binario;
-}
-
-int * Operaciones::conversorBinarioExponente(int decimal) {
-    int * binario = new int[8];
-    int contador = 7;
-    for(int i = 0; i<8; i++){
-        binario[i] = 0;
-    }
-    if (decimal > 0) {
-        while(decimal >= 1){
-            if(decimal % 2 != 0) {
-                binario[contador] = 1;
-            }
-            decimal = decimal/2;
-            contador--;
-        }
-    }
+    binario[0] = 1;
     return binario;
 }
 
@@ -151,61 +134,82 @@ Suma::Suma()
 float Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB){
     //PASO 2
     if(exponenteA < exponenteB) {
-           int signoAAux = signoA;
-           int exponenteAAux = exponenteA;
-           int mantisaAAux = mantisaA;
-           signoA = signoB;
-           exponenteA = exponenteB;
-           mantisaA = mantisaB;
-           signoB = signoAAux;
-           exponenteB = exponenteAAux;
-           mantisaB = mantisaAAux;
-           operandosIntercambiados = true;
+        qDebug() << "Estoy dentro PASO 2";
+        int signoAAux = signoA;
+        int exponenteAAux = exponenteA;
+        int mantisaAAux = mantisaA;
+        signoA = signoB;
+        exponenteA = exponenteB;
+        mantisaA = mantisaB;
+        signoB = signoAAux;
+        exponenteB = exponenteAAux;
+        mantisaB = mantisaAAux;
+        operandosIntercambiados = true;
     }
 
     //PASO 3
     int exponenteSuma = exponenteA;
-    int diferencia = exponenteA - exponenteB;
+    int d = exponenteA - exponenteB;
+    qDebug() << "PASO 3\n" << "Exponente Suma: " << exponenteSuma << "\nDiferencia: " << d;
 
     //PASO 4 Y PASO 5
-    int  * mantisaBBinaria = new int[23];
-    mantisaBBinaria = conversorBinario(mantisaB);
-
+    int  * mantisaBBinaria = new int[24];
+    // Pasamos la mantisa a binario
+    mantisaBBinaria = conversorBinario(mantisaB, 24);
     if(signoA != signoB) {
         mantisaBBinaria = complemento2(mantisaBBinaria, mantisaB);
     }
+    mantisaBBinaria[0] = 1;
+    qDebug() << "PASO 4 Y 5";
+    for(int i = 0; i < 24; i++){
+        qDebug() << mantisaBBinaria[i];
+    }
 
     //PASO 6
-    if(22 - diferencia + 1 < 23) {
-        g = mantisaBBinaria[23 - diferencia + 1];
+    if(22 - d + 1 < 23) {
+        g = mantisaBBinaria[23 - d + 1];
     }
-    if(22 - diferencia + 2 < 23) {
-        r = mantisaBBinaria[23 - diferencia + 2];
+    if(22 - d + 2 < 23) {
+        r = mantisaBBinaria[23 - d + 2];
     }
     int n = 3;
-    while(22 - diferencia + n < 23) {
-        if(mantisaBBinaria[23 - diferencia + n] == 1){
+    while(22 - d + n < 23) {
+        if(mantisaBBinaria[23 - d + n] == 1){
             st = 1;
         }
+        d--;
     }
+    qDebug() << "PASO 6\n" << "G: " << g << "\nR: " << r << "ST: " << st;
+
 
     //PASO 7
     if (signoA != signoB) {
-        mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, false, diferencia);
+        mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, false, d);
     } else {
-        mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, true, diferencia);
+        mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, true, d);
+    }
+    qDebug() << "PASO 7";
+    for (int i=0; i<24; i++){
+        qDebug() << mantisaBBinaria[i];
     }
 
     //PASO 8
-    int * mantisaABinaria = conversorBinario(mantisaA);
+    int * mantisaABinaria = conversorBinario(mantisaA, 24);
+    mantisaABinaria[0] = 1;
     int acarreo = 0;
     mantisaBBinaria = sumaBinario(mantisaABinaria, mantisaBBinaria, acarreo);
+    qDebug() << "PASO 8";
+    for(int i = 0; i<24; i++)
+        qDebug() << mantisaBBinaria[i];
+    qDebug() << "Acarreo: " << acarreo;
 
     //PASO 9
     if(signoA != signoB && mantisaBBinaria[0] == 1 && acarreo == 0) {
         mantisaBBinaria = complemento2(mantisaBBinaria, mantisaB);
         complemento_P = true;
     }
+    qDebug() << "PASO 9";
+
 
     //PASO 10
     if(signoA == signoB && acarreo == 1){
@@ -235,6 +239,7 @@ float Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int si
     //PASO 11
     int c2 = 0;
     if ((r == 1 && st == 1) || (r == 1 && st == 0 && mantisaBBinaria[23] == 1)){
+        qDebug() << "HOLA\n";
         // mantisaBBinaria = sumaBinario(mantisaBBinaria, 1, c2);
         if(c2 == 1) {
             mantisaBBinaria = desplazarBitsDerecha(mantisaBBinaria, true, 1);
@@ -337,8 +342,8 @@ float Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA, int
 MultiplicacionSinSigno::MultiplicacionSinSigno(int mantisaA, int mantisaB) {
     // PASO 1
     int i;
-    int * A = conversorBinario(mantisaA);
-    int * B = conversorBinario(mantisaB);
+    int * A = conversorBinario(mantisaA, 23);
+    int * B = conversorBinario(mantisaB, 23);
     int * P = new int[24];
     for(i = 0; i < 24; i++){
         P[i] = 0;
@@ -374,8 +379,8 @@ Division::Division(){
 float Division::divisionCompaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB){
     int * mantisaABinaria = new int[23];
     int * mantisaBBinaria = new int[23];
-    mantisaABinaria = conversorBinario(mantisaA);
-    mantisaBBinaria = conversorBinario(mantisaB);
+    mantisaABinaria = conversorBinario(mantisaA, 23);
+    mantisaBBinaria = conversorBinario(mantisaB, 23);
 
     int * mantisaABinariaFinal = new int[24];
     int * mantisaBBinariaFinal = new int[24];

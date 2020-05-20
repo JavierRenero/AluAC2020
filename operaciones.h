@@ -8,8 +8,7 @@ class Operaciones
 {
 public:
     int * complemento2(int binario[], int &numeroDecimal);
-    int * conversorBinario(int decimal);
-    int * conversorBinarioExponente(int decimal);
+    int * conversorBinario(int decimal, int tam);
     int * desplazarBitsDerecha(int binario[], bool ceros, int desplazamientos);
     int * desplazarBitsIzquierda(int binario[], bool ceros, int desplazamientos);
     int * sumaBinario(int binario1[], int binario2[], int &acarreo);
