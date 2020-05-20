@@ -7,7 +7,7 @@ using namespace std;
 class Operaciones
 {
 public:
-    int * complemento2(int binario[], int &numeroDecimal);
+    int * complemento2(int binario[]);
     int * conversorBinario(int decimal, int tam);
     int * desplazarBitsDerecha(int binario[], bool ceros, int desplazamientos);
     int * desplazarBitsIzquierda(int binario[], bool ceros, int desplazamientos);
