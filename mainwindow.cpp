@@ -28,19 +28,19 @@ void MainWindow::on_calcularButton_clicked()
     int signoB = ieeConverterB.getSigno();
     int exponenteB = ieeConverterB.getExponente();
     int mantisaB = ieeConverterB.getFraccionaria();
-    float resultado;
+    QString resultado;
     if(ui->sumaButton->isChecked()) {
         Suma suma = Suma();
         resultado = suma.realizarOperaciones(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
-        ui->resultText->setText(QString::number(resultado));
+        ui->resultText->setText(resultado);
     } else if (ui->multiplicacionButton->isChecked()){
         Multiplicacion multiplicacion = Multiplicacion();
         resultado = multiplicacion.comaFlotante(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
-        ui->resultText->setText(QString::number(resultado));
+        ui->resultText->setText(resultado);
     } else if (ui->divisionButton->isChecked()){
         Division div = Division();
         resultado = div.divisionCompaFlotante(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
-        ui->resultText->setText(QString::number(resultado));
+        ui->resultText->setText(resultado);
     }
 }
 

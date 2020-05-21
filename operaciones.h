@@ -1,6 +1,7 @@
 #ifndef OPERACIONES_H
 #define OPERACIONES_H
 #include <vector>
+#include <QString>
 
 using namespace std;
 
@@ -21,7 +22,7 @@ class Suma : Operaciones
 {
 public:
     Suma();
-    float realizarOperaciones(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
+    QString realizarOperaciones(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
 private:
     int g, r, st, n;
     bool operandosIntercambiados, complemento_P;
@@ -31,7 +32,7 @@ class Multiplicacion : Operaciones
 {
 public:
     Multiplicacion();
-    float comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
+    QString comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
 private:
 
 };
@@ -52,7 +53,7 @@ class Division : Operaciones
 {
 public:
     Division();
-    float divisionCompaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
+    QString divisionCompaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
 private:
 
 };

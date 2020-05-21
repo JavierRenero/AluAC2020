@@ -138,7 +138,7 @@ Suma::Suma()
     this->complemento_P = false;
 }
 
-float Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB){
+QString Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB){
     //PASO 2
     if(exponenteA < exponenteB) {
         qDebug() << "Estoy dentro PASO 2";
@@ -272,17 +272,24 @@ float Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA, int si
     } else {
         signoSuma = signoA;
     }
+    if(exponenteSuma>254){
+        return "Inf";
+    }
+
+    if(exponenteSuma<127){
+        return "Denormal";
+    }
 
     //PASO 13
     IEEToFloat iee = IEEToFloat(signoSuma, exponenteSuma, conversorEnteros(mantisaSumaNormalizada));
-    return iee.getNumber();
+    return QString::number(iee.getNumber());
 }
 
 Multiplicacion::Multiplicacion(){
 
 }
 
-float Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB) {
+QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB) {
     //PASO 1
     int signoProducto = signoA * signoB;
 
@@ -347,9 +354,8 @@ float Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA, int
 
     }
 
-    // OPERANDOS 0
-
-    return 0;
+    IEEToFloat iee = IEEToFloat(signoProducto, exponenteProducto, conversorDecimal(P));
+    return QString::number(iee.getNumber());
 }
 
 MultiplicacionSinSigno::MultiplicacionSinSigno(int mantisaA, int mantisaB) {
@@ -389,22 +395,29 @@ Division::Division(){
 
 }
 
-float Division::divisionCompaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB){
-    int * mantisaABinaria = new int[23];
-    int * mantisaBBinaria = new int[23];
-    mantisaABinaria = conversorBinario(mantisaA, 23);
-    mantisaBBinaria = conversorBinario(mantisaB, 23);
+QString Division::divisionCompaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB){
+    int * mantisaABinaria = new int[24];
+    int * mantisaBBinaria = new int[24];
 
-    int * mantisaABinariaFinal = new int[24];
-    int * mantisaBBinariaFinal = new int[24];
-    for(int i=0; i<23; i++){
-        mantisaABinariaFinal[i+1] = mantisaABinaria[i];
-        mantisaBBinariaFinal[i+1] = mantisaBBinaria[i];
+    mantisaABinaria = conversorBinario(mantisaA, 24);
+    mantisaBBinaria = conversorBinario(mantisaB, 24);
+
+
+    int * mantisaABinariaFinal = new int[23];
+    int * mantisaBBinariaFinal = new int[23];
+
+
+    for(int i = 0; i<23; i++){
+        mantisaABinariaFinal[i] = mantisaABinaria[i+1];
+        mantisaBBinariaFinal[i] = mantisaBBinaria[i+1];
     }
-    float mantisaADecimal = conversorDecimal(mantisaABinaria);
-    float mantisaBDecimal = conversorDecimal(mantisaBBinaria);
+
+    float mantisaADecimal = conversorDecimal(mantisaABinariaFinal);
+    float mantisaBDecimal = conversorDecimal(mantisaBBinariaFinal);
+
     mantisaADecimal += 1;
     mantisaBDecimal += 1;
+
     qDebug() << mantisaADecimal;
     qDebug() << mantisaBDecimal;
     return 0;
