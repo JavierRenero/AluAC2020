@@ -44,12 +44,13 @@ class MultiplicacionSinSigno : Operaciones
 {
 public:
     MultiplicacionSinSigno(int mantisaA, int mantisaB);
-    int * getP();
-    int * getA();
-private:
-    int * P;
-    int * A;
-    int * B;
+    int *getP();
+    int *getA();
+
+  private:
+    int *P;
+    int *A;
+    int *B;
 };
 
 class Division : Operaciones

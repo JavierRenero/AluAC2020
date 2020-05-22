@@ -295,7 +295,12 @@ Multiplicacion::Multiplicacion() {}
 QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA,
                                      int signoB, int exponenteB, int mantisaB) {
   // PASO 1
-  int signoProducto = signoA * signoB;
+  int signoProducto;
+  if (signoA != signoB) {
+    signoProducto = 1;
+  } else {
+    signoProducto = 0;
+  }
 
   // PASO 2
   int exponenteProducto = (exponenteA - 127) + (exponenteB - 127) + 127;
@@ -411,9 +416,9 @@ int *Multiplicacion::separarA(int *PyA) {
 MultiplicacionSinSigno::MultiplicacionSinSigno(int mantisaA, int mantisaB) {
   // PASO 1
   int i;
-  int *A = conversorBinario(mantisaA, 24);
-  int *B = conversorBinario(mantisaB, 24);
-  int *P = new int[24];
+  A = conversorBinario(mantisaA, 24);
+  B = conversorBinario(mantisaB, 24);
+  P = new int[24];
   for (i = 0; i < 24; i++) {
     P[i] = 0;
   }
@@ -429,7 +434,6 @@ MultiplicacionSinSigno::MultiplicacionSinSigno(int mantisaA, int mantisaB) {
     P = desplazarBitsDerecha(P, c == 0, 1);
     A = desplazarBitsDerecha(A, aux == 0, 1);
   }
-
   // PASO 3
   // CONSISTE EN DEVOLVER EL RESULTADO ES DECIR A Y B
 }
