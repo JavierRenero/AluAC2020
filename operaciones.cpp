@@ -277,8 +277,7 @@ QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA,
     int exponenteProducto = (exponenteA - 127) + (exponenteB - 127) + 127;
 
     // PASO 3
-    MultiplicacionSinSigno resultSinSigno =
-            MultiplicacionSinSigno(mantisaA, mantisaB);
+    MultiplicacionSinSigno resultSinSigno = MultiplicacionSinSigno(mantisaA, mantisaB);
     int *A = resultSinSigno.getA();
     int *P = resultSinSigno.getP();
     if (P[0] == 0) {
@@ -395,9 +394,8 @@ MultiplicacionSinSigno::MultiplicacionSinSigno(int mantisaA, int mantisaB) {
     }
 
     // PASO 2
-    int c = 0;
     for (i = 0; i < 24; i++) {
-
+        int c = 0;
         if (A[23] == 1) {
             P = sumaBinario(P, B, c);
         }
