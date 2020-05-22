@@ -33,8 +33,11 @@ class Multiplicacion : Operaciones
 public:
     Multiplicacion();
     QString comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
-private:
+    int *juntarPA(int binario1[], int binario2[]);
+    int *separarP(int binario1[]);
+    int *separarA(int binario1[]);
 
+  private:
 };
 
 class MultiplicacionSinSigno : Operaciones
