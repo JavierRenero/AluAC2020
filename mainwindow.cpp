@@ -31,7 +31,7 @@ void MainWindow::on_calcularButton_clicked()
     QString resultado;
     if(ui->sumaButton->isChecked()) {
         Suma suma = Suma();
-        resultado = suma.realizarOperaciones(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
+        resultado = suma.realizarSuma(signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
         ui->resultText->setText(resultado);
     } else if (ui->multiplicacionButton->isChecked()){
         Multiplicacion multiplicacion = Multiplicacion();

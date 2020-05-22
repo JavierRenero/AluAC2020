@@ -131,7 +131,7 @@ Suma::Suma() {
   this->complemento_P = false;
 }
 
-QString Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA,
+QString Suma::realizarSuma(int signoA, int exponenteA, int mantisaA,
                                   int signoB, int exponenteB, int mantisaB) {
   // PASO 2
   if (exponenteA < exponenteB) {
@@ -248,10 +248,10 @@ QString Suma::realizarOperaciones(int signoA, int exponenteA, int mantisaA,
     signoSuma = signoA;
   }
   if (exponenteSuma > 254) {
-    return "Inf";
+    return "InfA";
   }
 
-  if (exponenteSuma < 127) {
+  if (exponenteSuma < EXPONENTE_MINIMO) {
     return "Denormal";
   }
 
@@ -314,7 +314,7 @@ QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA,
   // 1
   int t;
   int *resultado = new int[48];
-  qDebug() << exponenteProducto;
+
   if (exponenteProducto > MAX_REPRESENTABLE) {
     return "Inf";
   } else if (exponenteProducto < EXPONENTE_MINIMO) {
@@ -457,22 +457,18 @@ QString Division::divisionCompaFlotante(int signoA, int exponenteA,
   floatToIEE BP = floatToIEE(bPrima);
 
   Multiplicacion mult = Multiplicacion();
-  QString x0Q =
-      mult.comaFlotante(A.getSigno(), A.getExponente(), A.getFraccionaria(),
-                        BP.getSigno(), BP.getExponente(), BP.getFraccionaria());
-  QString y0Q =
-      mult.comaFlotante(B.getSigno(), B.getExponente(), B.getFraccionaria(),
-                        BP.getSigno(), BP.getExponente(), BP.getFraccionaria());
-  float x0 = 0;
-  float y0 = 0;
 
-  qDebug() << x0Q;
-  qDebug() << y0Q;
+  float x0 = mult.comaFlotante(A.getSigno(), A.getExponente(), A.getFraccionaria(),
+                               BP.getSigno(), BP.getExponente(), BP.getFraccionaria()).toFloat();
+  float y0 = mult.comaFlotante(B.getSigno(), B.getExponente(), B.getFraccionaria(),
+                               BP.getSigno(), BP.getExponente(), BP.getFraccionaria()).toFloat();
 
   Suma sum = Suma();
-  floatToIEE dos = floatToIEE(bPrima);
+  floatToIEE dos = floatToIEE(2);
   floatToIEE y0IEENeg = floatToIEE(-y0);
-  float r = sum.realizarOperaciones(dos.getSigno(), dos.getExponente(),
+
+  // Calculamos R
+  float r = sum.realizarSuma(dos.getSigno(), dos.getExponente(),
                                     dos.getFraccionaria(), y0IEENeg.getSigno(),
                                     y0IEENeg.getExponente(),
                                     y0IEENeg.getFraccionaria())
@@ -489,16 +485,23 @@ QString Division::divisionCompaFlotante(int signoA, int exponenteA,
                                rIEE.getExponente(), rIEE.getFraccionaria())
                  .toFloat();
   floatToIEE x1IEE = floatToIEE(x1);
+  floatToIEE x0IEENeg = floatToIEE(-x0);
 
-  while (sum.realizarOperaciones(x1IEE.getSigno(), x1IEE.getExponente(),
-                                 x1IEE.getFraccionaria(), x0IEE.getSigno(),
-                                 x0IEE.getExponente(), x0IEE.getFraccionaria())
-             .toFloat() > 10E-4) {
+  while (abs(sum.realizarSuma(x1IEE.getSigno(), x1IEE.getExponente(),
+                          x1IEE.getFraccionaria(), x0IEENeg.getSigno(),
+                          x0IEENeg.getExponente(), x0IEENeg.getFraccionaria())
+             .toFloat()) > 10E-4) {
+      qDebug() << r << "\t" << y0 << "\t" << x1 << "\t" << x0;
+      qDebug() << sum.realizarSuma(x1IEE.getSigno(), x1IEE.getExponente(),
+                                   x1IEE.getFraccionaria(), x0IEENeg.getSigno(),
+                                   x0IEENeg.getExponente(), x0IEENeg.getFraccionaria())
+                      .toFloat();
     x0 = x1;
     x0IEE = floatToIEE(x0);
+    x0IEENeg = floatToIEE(-x0);
     floatToIEE y0IEENeg = floatToIEE(-y0);
     floatToIEE y0IEEPos = floatToIEE(y0);
-    r = sum.realizarOperaciones(dos.getSigno(), dos.getExponente(),
+    r = sum.realizarSuma(dos.getSigno(), dos.getExponente(),
                                 dos.getFraccionaria(), y0IEENeg.getSigno(),
                                 y0IEENeg.getExponente(),
                                 y0IEENeg.getFraccionaria())

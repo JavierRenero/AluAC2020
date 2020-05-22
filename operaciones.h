@@ -22,7 +22,7 @@ class Suma : Operaciones
 {
 public:
     Suma();
-    QString realizarOperaciones(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
+    QString realizarSuma(int signoA, int exponenteA, int mantisaA, int signoB, int exponenteB, int mantisaB);
 private:
     int g, r, st, n;
     bool operandosIntercambiados, complemento_P;
