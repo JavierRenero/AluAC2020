@@ -17,8 +17,9 @@ public:
 
 private slots:
     void on_calcularButton_clicked();
+    bool isNumber(std::string string);
 
-private:
+  private:
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
