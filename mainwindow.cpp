@@ -3,6 +3,7 @@
 #include "iee754converter.h"
 #include "operaciones.h"
 #include "ui_mainwindow.h"
+#include <regex>
 #include <sstream>
 #include <string>
 
@@ -78,9 +79,18 @@ void MainWindow::on_calcularButton_clicked() {
     }
   }
 }
-bool MainWindow::isNumber(string myString) {
-  istringstream iss(myString);
-  float f;
-  iss >> noskipws >> f;
-  return iss.eof() && !iss.fail();
+bool MainWindow::isNumber(string s) {
+  regex s_expr("[[:digit:]]+(?:E|e)[[:digit:]]+");
+  if (regex_match(s, s_expr)) {
+    return true;
+  }
+  //  for (int i = 0; i < s.length(); i++) {
+  //    if (s.at(i) == 'e' || s.at(i) == 'E') {
+  //      return true;
+  //    }
+  //  }
+  istringstream iss(s);
+  float num;
+  iss >> noskipws >> num;
+  return iss && iss.eof();
 }

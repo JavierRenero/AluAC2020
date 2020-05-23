@@ -264,6 +264,16 @@ Multiplicacion::Multiplicacion() {}
 
 QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA,
                                      int signoB, int exponenteB, int mantisaB) {
+  int *maA = conversorBinario(mantisaA, 24);
+  int *maB = conversorBinario(mantisaB, 24);
+  IEEToFloat valorDeA = IEEToFloat(0, exponenteA, conversorEnteros(maA));
+  IEEToFloat valorDeB = IEEToFloat(0, exponenteB, conversorEnteros(maB));
+  int AVal = valorDeA.getNumber();
+  int BVal = valorDeB.getNumber();
+  if (AVal == 0 || BVal == 0) {
+    return "0";
+  }
+
   // PASO 1
   int signoProducto;
   if (signoA != signoB) {
@@ -308,12 +318,10 @@ QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA,
     suma1[23] = 1;
     P = sumaBinario(P, suma1, c);
   }
-
   // DESBORDAMIENTOS
   // 1
   int t;
   int *resultado = new int[48];
-
   if (exponenteProducto > MAX_REPRESENTABLE) {
     return "Inf";
   } else if (exponenteProducto < EXPONENTE_MINIMO) {
@@ -344,12 +352,13 @@ QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA,
   }
   P = separarP(resultado);
   A = separarA(resultado);
-  int *resultadoMult = new int[23];
+  int *resultadoMult = new int[24];
   for (int i = 22; i >= 0; i--) {
     resultadoMult[i] = P[i + 1];
   }
   IEEToFloat iee = IEEToFloat(signoProducto, exponenteProducto,
                               conversorEnteros(resultadoMult));
+
   return QString::number(iee.getNumber());
 }
 
@@ -409,6 +418,8 @@ MultiplicacionSinSigno::MultiplicacionSinSigno(int mantisaA, int mantisaB) {
 int *MultiplicacionSinSigno::getP() { return this->P; }
 
 int *MultiplicacionSinSigno::getA() { return this->A; }
+
+int *MultiplicacionSinSigno::getB() { return this->B; }
 
 Division::Division() {}
 
