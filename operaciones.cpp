@@ -247,7 +247,7 @@ QString Suma::realizarSuma(int signoA, int exponenteA, int mantisaA, int signoB,
     signoSuma = signoA;
   }
   if (exponenteSuma > 254) {
-    return "InfA";
+    return "Inf";
   }
 
   if (exponenteSuma < EXPONENTE_MINIMO) {

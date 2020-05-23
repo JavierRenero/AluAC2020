@@ -83,14 +83,10 @@ bool MainWindow::isNumber(string s) {
   regex s_expr("[[:digit:]]+(?:E|e)[[:digit:]]+");
   if (regex_match(s, s_expr)) {
     return true;
+  } else {
+      istringstream iss(s);
+      float num;
+      iss >> noskipws >> num;
+      return iss && iss.eof();
   }
-  //  for (int i = 0; i < s.length(); i++) {
-  //    if (s.at(i) == 'e' || s.at(i) == 'E') {
-  //      return true;
-  //    }
-  //  }
-  istringstream iss(s);
-  float num;
-  iss >> noskipws >> num;
-  return iss && iss.eof();
 }
