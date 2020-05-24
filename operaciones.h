@@ -31,7 +31,7 @@ private:
 class Multiplicacion : Operaciones {
 public:
   Multiplicacion();
-  QString comaFlotante(int signoA, int exponenteA, int mantisaA, int signoB,
+  QString realizarMultiplicacion(int signoA, int exponenteA, int mantisaA, int signoB,
                        int exponenteB, int mantisaB);
   int *juntarPA(int binario1[], int binario2[]);
   int *separarP(int binario1[]);
@@ -56,7 +56,7 @@ private:
 class Division : Operaciones {
 public:
   Division();
-  QString divisionCompaFlotante(int signoA, int exponenteA, int mantisaA,
+  QString realizarDivision(int signoA, int exponenteA, int mantisaA,
                                 int signoB, int exponenteB, int mantisaB);
 
 private:

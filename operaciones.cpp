@@ -5,6 +5,7 @@
 #define EXPONENTE_MINIMO 0
 #define TAM_MANTISA 24
 
+// Convierte un numero binario a complemento a2
 int *Operaciones::complemento2(int binario[]) {
   for (int i = 0; i < 24; i++) {
     if (binario[i] == 1) {
@@ -23,6 +24,7 @@ int *Operaciones::complemento2(int binario[]) {
   return binario;
 }
 
+// Convierte un numero entero a binario
 int *Operaciones::conversorBinario(int decimal, int tam) {
   int *binario = new int[tam];
   int contador = tam - 1;
@@ -42,6 +44,7 @@ int *Operaciones::conversorBinario(int decimal, int tam) {
   return binario;
 }
 
+// Devuelve un vector con n desplazamientos a la derecha añadiendo unos o ceros
 int *Operaciones::desplazarBitsDerecha(int binario[], bool ceros,
                                        int desplazamientos) {
   int contador = 0;
@@ -58,6 +61,7 @@ int *Operaciones::desplazarBitsDerecha(int binario[], bool ceros,
   return binario;
 }
 
+// Devuelve un vector con n desplazamientos a la izquierda añadiendo unos o ceros
 int *Operaciones::desplazarBitsIzquierda(int binario[], bool ceros,
                                          int desplazamientos) {
   int contador = 0;
@@ -74,6 +78,7 @@ int *Operaciones::desplazarBitsIzquierda(int binario[], bool ceros,
   return binario;
 }
 
+// Devuelve la suma de los dos numeros en binario
 int *Operaciones::sumaBinario(int binario1[], int binario2[], int &acarreo) {
   int *resultado = new int[24];
   for (int i = 23; i >= 0; i--) {
@@ -86,6 +91,7 @@ int *Operaciones::sumaBinario(int binario1[], int binario2[], int &acarreo) {
   return resultado;
 }
 
+// Devulve el numero de posiciones que hay que desplazar para que la mantisa sea normalizada
 int Operaciones::mantisaNormalizada(int binario[]) {
   int contador = 0;
   while (contador < 24) {
@@ -96,6 +102,7 @@ int Operaciones::mantisaNormalizada(int binario[]) {
   return contador;
 }
 
+// Devulvle el numero en un entero
 int Operaciones::conversorEnteros(int binario[]) {
   int decimal = 0;
   int contador = 0;
@@ -108,6 +115,7 @@ int Operaciones::conversorEnteros(int binario[]) {
   return decimal;
 }
 
+// Devulve el numero en decimal
 float Operaciones::conversorDecimal(int binario[]) {
   float decimal = 0;
   int contador = -1;
@@ -130,6 +138,7 @@ Suma::Suma() {
   this->complemento_P = false;
 }
 
+// Realiza la suma de dos numeros binarios en formato IEE754
 QString Suma::realizarSuma(int signoA, int exponenteA, int mantisaA, int signoB,
                            int exponenteB, int mantisaB) {
   // PASO 2
@@ -251,7 +260,7 @@ QString Suma::realizarSuma(int signoA, int exponenteA, int mantisaA, int signoB,
   }
 
   if (exponenteSuma < EXPONENTE_MINIMO) {
-    return "Denormal";
+    return "-Inf";
   }
 
   // PASO 13
@@ -262,15 +271,11 @@ QString Suma::realizarSuma(int signoA, int exponenteA, int mantisaA, int signoB,
 
 Multiplicacion::Multiplicacion() {}
 
-QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA,
+// Realiza la multiplicación de dos numeros binarios en formato IEE754
+QString Multiplicacion::realizarMultiplicacion(int signoA, int exponenteA, int mantisaA,
                                      int signoB, int exponenteB, int mantisaB) {
   // PASO 1
-  int signoProducto;
-  if (signoA != signoB) {
-    signoProducto = 1;
-  } else {
-    signoProducto = 0;
-  }
+  int signoProducto = signoA ^ signoB;
 
   // PASO 2
   int exponenteProducto = (exponenteA - 127) + (exponenteB - 127) + 127;
@@ -352,6 +357,7 @@ QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA,
   return QString::number(iee.getNumber());
 }
 
+// Devuelve un vector formado por P y A
 int *Multiplicacion::juntarPA(int P[], int A[]) {
   int *resultado = new int[48];
   for (int i = 0; i < 48; i++) {
@@ -365,22 +371,25 @@ int *Multiplicacion::juntarPA(int P[], int A[]) {
   return resultado;
 }
 
-int *Multiplicacion::separarP(int *PyA) {
+// Separa P
+int *Multiplicacion::separarP(int *PA) {
   int *resultado = new int[24];
   for (int i = 0; i < 24; i++) {
-    resultado[i] = PyA[i];
+    resultado[i] = PA[i];
   }
   return resultado;
 }
 
-int *Multiplicacion::separarA(int *PyA) {
+// Separa A
+int *Multiplicacion::separarA(int *PA) {
   int *resultado = new int[24];
   for (int i = 0; i < 24; i++) {
-    resultado[i] = PyA[i + 24];
+    resultado[i] = PA[i + 24];
   }
   return resultado;
 }
 
+// Realiza la multiplicación de dos mantisas
 MultiplicacionSinSigno::MultiplicacionSinSigno(int mantisaA, int mantisaB) {
   // PASO 1
   int i;
@@ -413,7 +422,8 @@ int *MultiplicacionSinSigno::getB() { return this->B; }
 
 Division::Division() {}
 
-QString Division::divisionCompaFlotante(int signoA, int exponenteA,
+// Realiza la división de dos numeros binarios en formato IEE754
+QString Division::realizarDivision(int signoA, int exponenteA,
                                         int mantisaA, int signoB,
                                         int exponenteB, int mantisaB) {
   int *mantisaABinaria = new int[24];
@@ -444,13 +454,7 @@ QString Division::divisionCompaFlotante(int signoA, int exponenteA,
     bPrima = 0.80;
   }
 
-  int signoDivision;
-
-  if (signoA != signoB) {
-    signoDivision = 1;
-  } else {
-    signoDivision = 0;
-  }
+  int signoDivision = signoA ^ signoB;
 
   floatToIEE A = floatToIEE(mantisaADecimal);
   floatToIEE B = floatToIEE(mantisaBDecimal);
@@ -459,11 +463,11 @@ QString Division::divisionCompaFlotante(int signoA, int exponenteA,
   Multiplicacion mult = Multiplicacion();
 
   float x0 =
-      mult.comaFlotante(A.getSigno(), A.getExponente(), A.getFraccionaria(),
+      mult.realizarMultiplicacion(A.getSigno(), A.getExponente(), A.getFraccionaria(),
                         BP.getSigno(), BP.getExponente(), BP.getFraccionaria())
           .toFloat();
   float y0 =
-      mult.comaFlotante(B.getSigno(), B.getExponente(), B.getFraccionaria(),
+      mult.realizarMultiplicacion(B.getSigno(), B.getExponente(), B.getFraccionaria(),
                         BP.getSigno(), BP.getExponente(), BP.getFraccionaria())
           .toFloat();
 
@@ -471,7 +475,7 @@ QString Division::divisionCompaFlotante(int signoA, int exponenteA,
   floatToIEE dos = floatToIEE(2);
   floatToIEE y0IEENeg = floatToIEE(-y0);
 
-  // Calculamos R
+  // Calculamos R inicial
   float r =
       sum.realizarSuma(dos.getSigno(), dos.getExponente(),
                        dos.getFraccionaria(), y0IEENeg.getSigno(),
@@ -480,17 +484,22 @@ QString Division::divisionCompaFlotante(int signoA, int exponenteA,
   floatToIEE rIEE = floatToIEE(r);
   floatToIEE x0IEE = floatToIEE(x0);
   floatToIEE y0IEEPos = floatToIEE(y0);
-  y0 = mult.comaFlotante(y0IEEPos.getSigno(), y0IEEPos.getExponente(),
+
+  // Calculamos Y0 inicial
+  y0 = mult.realizarMultiplicacion(y0IEEPos.getSigno(), y0IEEPos.getExponente(),
                          y0IEEPos.getFraccionaria(), rIEE.getSigno(),
                          rIEE.getExponente(), rIEE.getFraccionaria())
            .toFloat();
-  float x1 = mult.comaFlotante(x0IEE.getSigno(), x0IEE.getExponente(),
+
+  // Calculamos X1 inicial
+  float x1 = mult.realizarMultiplicacion(x0IEE.getSigno(), x0IEE.getExponente(),
                                x0IEE.getFraccionaria(), rIEE.getSigno(),
                                rIEE.getExponente(), rIEE.getFraccionaria())
                  .toFloat();
   floatToIEE x1IEE = floatToIEE(x1);
   floatToIEE x0IEENeg = floatToIEE(-x0);
 
+  // Bucle para ajustar el valor de x1
   while (
       abs(sum.realizarSuma(x1IEE.getSigno(), x1IEE.getExponente(),
                            x1IEE.getFraccionaria(), x0IEENeg.getSigno(),
@@ -501,16 +510,19 @@ QString Division::divisionCompaFlotante(int signoA, int exponenteA,
     x0IEENeg = floatToIEE(-x0);
     floatToIEE y0IEENeg = floatToIEE(-y0);
     floatToIEE y0IEEPos = floatToIEE(y0);
+    // Recalculamos R
     r = sum.realizarSuma(dos.getSigno(), dos.getExponente(),
                          dos.getFraccionaria(), y0IEENeg.getSigno(),
                          y0IEENeg.getExponente(), y0IEENeg.getFraccionaria())
             .toFloat();
     floatToIEE rIEE = floatToIEE(r);
-    y0 = mult.comaFlotante(y0IEEPos.getSigno(), y0IEEPos.getExponente(),
+    // Recalculamos Y0
+    y0 = mult.realizarMultiplicacion(y0IEEPos.getSigno(), y0IEEPos.getExponente(),
                            y0IEEPos.getFraccionaria(), rIEE.getSigno(),
                            rIEE.getExponente(), rIEE.getFraccionaria())
              .toFloat();
-    x1 = mult.comaFlotante(x0IEE.getSigno(), x0IEE.getExponente(),
+    // Recalculamos X1
+    x1 = mult.realizarMultiplicacion(x0IEE.getSigno(), x0IEE.getExponente(),
                            x0IEE.getFraccionaria(), rIEE.getSigno(),
                            rIEE.getExponente(), rIEE.getFraccionaria())
              .toFloat();
@@ -518,6 +530,7 @@ QString Division::divisionCompaFlotante(int signoA, int exponenteA,
 
   floatToIEE xiIEE = floatToIEE(x1);
 
+  // Calculamos el exponente de la división
   exponenteDivision =
       (exponenteA - 127) - (exponenteB - 127) + xiIEE.getExponente();
   IEEToFloat resultado =

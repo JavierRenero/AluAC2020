@@ -55,22 +55,26 @@ void MainWindow::on_calcularButton_clicked() {
     int mantisaB = ieeConverterB.getFraccionaria();
     QString resultado;
     if (ui->signoBox->currentText() == "+") {
-      Suma suma = Suma();
-      resultado = suma.realizarSuma(signoA, exponenteA, mantisaA, signoB,
-                                    exponenteB, mantisaB);
+      if(textoA.toFloat() == -textoB.toFloat()){
+          resultado = "0";
+      } else {
+          Suma suma = Suma();
+          resultado = suma.realizarSuma(signoA, exponenteA, mantisaA, signoB,
+                                        exponenteB, mantisaB);
+      }
       ui->resultText->setText(resultado);
     } else if (ui->signoBox->currentText() == "x") {
       if (textoA.toFloat() == 0 || textoB.toFloat() == 0) {
         resultado = "0";
       } else {
         Multiplicacion multiplicacion = Multiplicacion();
-        resultado = multiplicacion.comaFlotante(signoA, exponenteA, mantisaA,
+        resultado = multiplicacion.realizarMultiplicacion(signoA, exponenteA, mantisaA,
                                                 signoB, exponenteB, mantisaB);
       }
       ui->resultText->setText(resultado);
     } else if (ui->signoBox->currentText() == "÷") {
       Division div = Division();
-      resultado = div.divisionCompaFlotante(signoA, exponenteA, mantisaA,
+      resultado = div.realizarDivision(signoA, exponenteA, mantisaA,
                                             signoB, exponenteB, mantisaB);
       ui->resultText->setText(resultado);
     } else {
@@ -84,8 +88,9 @@ void MainWindow::on_calcularButton_clicked() {
   }
 }
 
+// Comprueba si el texto introducido es un numero
 bool MainWindow::isNumber(string s) {
-  regex s_expr("[[:digit:]]+(?:E|e)[[:digit:]]+");
+  regex s_expr("(?:-)[[:digit:]]+(?:E|e)[[:digit:]]+");
   if (regex_match(s, s_expr)) {
     return true;
   } else {
