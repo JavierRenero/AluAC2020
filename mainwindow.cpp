@@ -88,11 +88,6 @@ bool MainWindow::isNumber(string s) {
   if (regex_match(s, s_expr)) {
     return true;
   }
-  //  for (int i = 0; i < s.length(); i++) {
-  //    if (s.at(i) == 'e' || s.at(i) == 'E') {
-  //      return true;
-  //    }
-  //  }
   istringstream iss(s);
   float num;
   iss >> noskipws >> num;
