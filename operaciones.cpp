@@ -203,6 +203,10 @@ QString Suma::realizarSuma(int signoA, int exponenteA, int mantisaA, int signoB,
     complemento_P = true;
   }
 
+  if (exponenteSuma <= EXPONENTE_MINIMO) {
+    return "Denormal";
+  }
+
   // PASO 10
   if (signoA == signoB && acarreo == 1) {
     if (g || r || st == 0) {
@@ -255,11 +259,9 @@ QString Suma::realizarSuma(int signoA, int exponenteA, int mantisaA, int signoB,
   } else {
     signoSuma = signoA;
   }
-  if (exponenteSuma > 254) {
+  if (exponenteSuma > 254 && signoSuma == 0) {
     return "Inf";
-  }
-
-  if (exponenteSuma < EXPONENTE_MINIMO) {
+  } else if (exponenteSuma > 254){
     return "-Inf";
   }
 
