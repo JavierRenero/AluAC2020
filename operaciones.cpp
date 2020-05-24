@@ -1,6 +1,7 @@
 #include "operaciones.h"
 #include "iee754converter.h"
 #include "math.h"
+#include <QDebug>
 #define MAX_REPRESENTABLE 254
 #define EXPONENTE_MINIMO 0
 #define TAM_MANTISA 24
@@ -319,12 +320,14 @@ QString Multiplicacion::realizarMultiplicacion(int signoA, int exponenteA, int m
   // 1
   int t;
   int *resultado = new int[48];
-  if (exponenteProducto > MAX_REPRESENTABLE) {
+  if (exponenteProducto > MAX_REPRESENTABLE && signoProducto == 0) {
     return "Inf";
+  } else if(exponenteProducto > MAX_REPRESENTABLE){
+    return "-Inf";
   } else if (exponenteProducto < EXPONENTE_MINIMO) {
     t = EXPONENTE_MINIMO - exponenteProducto;
     if (t >= TAM_MANTISA) {
-      return "-Inf";
+      return "Denormal";
     } else {
       resultado = juntarPA(P, A);
       resultado = desplazarBitsDerecha(resultado, signoProducto == 0, t);
@@ -343,10 +346,10 @@ QString Multiplicacion::realizarMultiplicacion(int signoA, int exponenteA, int m
       t = t2;
     exponenteProducto -= t;
     resultado = desplazarBitsIzquierda(resultado, true, t);
-
   } else if (exponenteProducto == EXPONENTE_MINIMO) {
     return "Denormal";
   }
+
   P = separarP(resultado);
   A = separarA(resultado);
   int *resultadoMult = new int[24];
@@ -532,9 +535,20 @@ QString Division::realizarDivision(int signoA, int exponenteA,
 
   floatToIEE xiIEE = floatToIEE(x1);
 
+  if(exponenteB == 0){
+    return "Denormal";
+  }
+
   // Calculamos el exponente de la división
   exponenteDivision =
-      (exponenteA - 127) - (exponenteB - 127) + xiIEE.getExponente();
+      (exponenteA - 127) - (exponenteB - 127) + (xiIEE.getExponente()-127) + 127;
+
+  if(exponenteDivision > MAX_REPRESENTABLE && signoDivision == 0){
+    return "Inf";
+  } else if(exponenteDivision > MAX_REPRESENTABLE){
+    return "-Inf";
+  }
+
   IEEToFloat resultado =
       IEEToFloat(signoDivision, exponenteDivision, xiIEE.getFraccionaria());
   return QString::number(resultado.getNumber());

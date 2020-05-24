@@ -73,9 +73,7 @@ void MainWindow::on_calcularButton_clicked() {
       }
       ui->resultText->setText(resultado);
     } else if (ui->signoBox->currentText() == "÷") {
-      if (textoB.toFloat() == 0) {
-        resultado = "undefined";
-      } else if (textoA.toFloat() == 0 && textoB.toFloat() != 0) {
+      if (textoA.toFloat() == 0 && textoB.toFloat() != 0) {
         resultado = "0";
       } else {
         Division div = Division();
