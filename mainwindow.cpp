@@ -60,9 +60,13 @@ void MainWindow::on_calcularButton_clicked() {
                                     exponenteB, mantisaB);
       ui->resultText->setText(resultado);
     } else if (ui->signoBox->currentText() == "x") {
-      Multiplicacion multiplicacion = Multiplicacion();
-      resultado = multiplicacion.comaFlotante(signoA, exponenteA, mantisaA,
-                                              signoB, exponenteB, mantisaB);
+      if (textoA.toFloat() == 0 || textoB.toFloat() == 0) {
+        resultado = "0";
+      } else {
+        Multiplicacion multiplicacion = Multiplicacion();
+        resultado = multiplicacion.comaFlotante(signoA, exponenteA, mantisaA,
+                                                signoB, exponenteB, mantisaB);
+      }
       ui->resultText->setText(resultado);
     } else if (ui->signoBox->currentText() == "÷") {
       Division div = Division();
@@ -79,6 +83,7 @@ void MainWindow::on_calcularButton_clicked() {
     }
   }
 }
+
 bool MainWindow::isNumber(string s) {
   regex s_expr("[[:digit:]]+(?:E|e)[[:digit:]]+");
   if (regex_match(s, s_expr)) {
