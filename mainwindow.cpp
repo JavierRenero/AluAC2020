@@ -42,7 +42,7 @@ void MainWindow::on_calcularButton_clicked() {
     mensaje.setWindowIcon(QIcon(":/icon1.png"));
     mensaje.setWindowTitle("WARNING");
     mensaje.setIcon(QMessageBox::Warning);
-    mensaje.setText("COMPRUEBE LOS DATOS INTRODUCIDOS\n\t  ERROR!");
+    mensaje.setText("COMPRUEBE LOS DATOS INTRODUCIDOS!");
     mensaje.exec();
   } else {
     floatToIEE ieeConverterA = floatToIEE(textoA.toFloat());
@@ -73,16 +73,22 @@ void MainWindow::on_calcularButton_clicked() {
       }
       ui->resultText->setText(resultado);
     } else if (ui->signoBox->currentText() == "÷") {
-      Division div = Division();
-      resultado = div.realizarDivision(signoA, exponenteA, mantisaA,
-                                            signoB, exponenteB, mantisaB);
+      if (textoB.toFloat() == 0) {
+        resultado = "undefined";
+      } else if (textoA.toFloat() == 0 && textoB.toFloat() != 0) {
+        resultado = "0";
+      } else {
+        Division div = Division();
+        resultado = div.realizarDivision(signoA, exponenteA, mantisaA, signoB,
+                                         exponenteB, mantisaB);
+      }
       ui->resultText->setText(resultado);
     } else {
       QMessageBox mensaje;
       mensaje.setWindowIcon(QIcon(":/icon1.png"));
-      mensaje.setWindowTitle("WARNING");
-      mensaje.setIcon(QMessageBox::Warning);
-      mensaje.setText("HA DE SELECCIONAR EL SIGNO DE LA OPERACIÓN\t  ERROR!");
+      mensaje.setWindowTitle("ERROR");
+      mensaje.setIcon(QMessageBox::Critical);
+      mensaje.setText("HA DE SELECCIONAR EL SIGNO DE LA OPERACIÓN!");
       mensaje.exec();
     }
   }
