@@ -264,16 +264,6 @@ Multiplicacion::Multiplicacion() {}
 
 QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA,
                                      int signoB, int exponenteB, int mantisaB) {
-  int *maA = conversorBinario(mantisaA, 24);
-  int *maB = conversorBinario(mantisaB, 24);
-  IEEToFloat valorDeA = IEEToFloat(0, exponenteA, conversorEnteros(maA));
-  IEEToFloat valorDeB = IEEToFloat(0, exponenteB, conversorEnteros(maB));
-  int AVal = valorDeA.getNumber();
-  int BVal = valorDeB.getNumber();
-  if (AVal == 0 || BVal == 0) {
-    return "0";
-  }
-
   // PASO 1
   int signoProducto;
   if (signoA != signoB) {
@@ -330,7 +320,7 @@ QString Multiplicacion::comaFlotante(int signoA, int exponenteA, int mantisaA,
       return "-Inf";
     } else {
       resultado = juntarPA(P, A);
-      resultado = desplazarBitsDerecha(resultado, true, t);
+      resultado = desplazarBitsDerecha(resultado, signoProducto == 0, t);
       exponenteProducto = EXPONENTE_MINIMO;
     }
   }
