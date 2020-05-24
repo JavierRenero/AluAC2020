@@ -90,7 +90,7 @@ void MainWindow::on_calcularButton_clicked() {
 
 // Comprueba si el texto introducido es un numero
 bool MainWindow::isNumber(string s) {
-  regex s_expr("(?:-)[[:digit:]]+(?:E|e)[[:digit:]]+");
+  regex s_expr("-?[[:digit:]]+(?:E|e)[[:digit:]]+");
   if (regex_match(s, s_expr)) {
     return true;
   } else {
