@@ -63,9 +63,9 @@ void MainWindow::on_calcularButton_clicked() {
           resultado = suma.realizarSuma(signoA, exponenteA, mantisaA, signoB,
                                         exponenteB, mantisaB);
       }
-      this->v->setNum1(textoA);
-      this->v->setNum2(textoB);
-      this->v->setResul(resultado);
+      this->v.setNum1(textoA);
+      this->v.setNum2(textoB);
+      this->v.setResul(resultado);
       pase = true;
       ui->resultText->setText(resultado);
     } else if (ui->signoBox->currentText() == "x") {
@@ -76,9 +76,10 @@ void MainWindow::on_calcularButton_clicked() {
         resultado = multiplicacion.realizarMultiplicacion(
             signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
       }
-      this->v->setNum1(textoA);
-      this->v->setNum2(textoB);
-      this->v->setResul(resultado);
+
+      this->v.setNum1(textoA);
+      this->v.setNum2(textoB);
+      this->v.setResul(resultado);
       pase = true;
       ui->resultText->setText(resultado);
     } else if (ui->signoBox->currentText() == "÷") {
@@ -89,9 +90,9 @@ void MainWindow::on_calcularButton_clicked() {
         resultado = div.realizarDivision(signoA, exponenteA, mantisaA, signoB,
                                          exponenteB, mantisaB);
       }
-      this->v->setNum1(textoA);
-      this->v->setNum2(textoB);
-      this->v->setResul(resultado);
+      this->v.setNum1(textoA);
+      this->v.setNum2(textoB);
+      this->v.setResul(resultado);
       pase = true;
       ui->resultText->setText(resultado);
     } else {
@@ -119,9 +120,9 @@ bool MainWindow::isNumber(string s) {
 }
 void MainWindow::on_conversionesBUtton_clicked() {
   if (pase) {
-    this->hide();
-    this->v->setModal(true);
-    this->v->exec();
+    this->v.setModal(true);
+    this->v.setText();
+    this->v.exec();
   } else {
     QMessageBox mensaje;
     mensaje.setWindowIcon(QIcon(":/icon1.png"));

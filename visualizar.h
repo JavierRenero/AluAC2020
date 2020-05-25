@@ -1,6 +1,7 @@
 #ifndef VISUALIZAR_H
 #define VISUALIZAR_H
 
+#include "ui_visualizar.h"
 #include <QDialog>
 
 namespace Ui {
@@ -14,6 +15,7 @@ class visualizar : public QDialog
 public:
   explicit visualizar(QWidget *parent = nullptr);
   ~visualizar();
+  Ui::visualizar *getUI();
   void setNum1(QString num1);
   void setNum2(QString num1);
   void setResul(QString num1);

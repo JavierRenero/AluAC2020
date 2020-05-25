@@ -22,7 +22,7 @@ private slots:
 
   private:
     Ui::MainWindow *ui;
-    visualizar *v;
+    visualizar v;
     bool pase = false;
 };
 #endif // MAINWINDOW_H

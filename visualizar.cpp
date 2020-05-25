@@ -12,6 +12,9 @@ visualizar::~visualizar()
 {
   delete ui;
 }
+
+Ui::visualizar *visualizar::getUI() { return this->ui; }
+
 void visualizar::setNum1(QString num1) { this->num1 = num1; }
 void visualizar::setNum2(QString num2) { this->num2 = num2; }
 void visualizar::setResul(QString resul) { this->result = resul; }
@@ -31,6 +34,9 @@ void visualizar::setText() {
     num2BinString.push_back(num2Bin[i] + '0');
     resulBinString.push_back(resulBin[i] + '0');
   }
+  this->ui->num1Iee->setText(num1BinString);
+  this->ui->num2Iee->setText(num2BinString);
+  this->ui->resulIee->setText(resulBinString);
 }
 
 int *visualizar::conversorBinario(int decimal, int tam) {
