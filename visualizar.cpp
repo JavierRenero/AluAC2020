@@ -5,10 +5,8 @@
 #include <math.h>
 #include <sstream>
 
-visualizar::visualizar(QWidget *parent) :
-                                          QDialog(parent),
-                                          ui(new Ui::visualizar)
-{
+visualizar::visualizar(QWidget *parent)
+    : QDialog(parent), ui(new Ui::visualizar) {
   ui->setupUi(this);
   this->setWindowTitle("ALU: CONVERSIONES");
   this->setWindowIcon(QIcon(":/icon1.png"));
@@ -32,10 +30,7 @@ visualizar::visualizar(QWidget *parent) :
   this->setStyleSheet("background-image:url(:fondo1.jpg);");
 }
 
-visualizar::~visualizar()
-{
-  delete ui;
-}
+visualizar::~visualizar() { delete ui; }
 
 Ui::visualizar *visualizar::getUI() { return this->ui; }
 
@@ -72,42 +67,42 @@ void visualizar::setText() {
   int *hexaNum2 = new int[4];
   int *hexaNumResul = new int[4];
 
-  QString hex1 ="0x";
+  QString hex1 = "0x";
   QString hex2 = "0x";
-  QString hexResul="0x";
+  QString hexResul = "0x";
 
   for (int i = 0; i < 32; i++) {
-    if(i > 0 && i%4==0){
-          hex1 += conversorHexadecimal(hexaNum1);
-          hex2 += conversorHexadecimal(hexaNum2);
-          hexResul += conversorHexadecimal(hexaNumResul);
-          for(int i = 0; i<4; i++){
-              hexaNum1[i] = 0;
-              hexaNum2[i] = 0;
-              hexaNumResul[i] = 0;
-          }
+    if (i > 0 && i % 4 == 0) {
+      hex1 += conversorHexadecimal(hexaNum1);
+      hex2 += conversorHexadecimal(hexaNum2);
+      hexResul += conversorHexadecimal(hexaNumResul);
+      for (int i = 0; i < 4; i++) {
+        hexaNum1[i] = 0;
+        hexaNum2[i] = 0;
+        hexaNumResul[i] = 0;
+      }
     }
-    if(i == 0){
-        num1BinString.push_back(IEEnum1.getSigno()+'0');
-        num2BinString.push_back(IEEnum2.getSigno()+'0');
-        resulBinString.push_back(IEEresul.getSigno()+'0');
-        hexaNum1[0] = IEEnum1.getSigno();
-        hexaNum2[0] = IEEnum2.getSigno();
-        hexaNumResul[0] = IEEresul.getSigno();
-    } else if (i < 9){
-        num1BinString.push_back(exp1[i-1]+'0');
-        num2BinString.push_back(exp2[i-1]+'0');
-        resulBinString.push_back(expResul[i-1]+'0');
-        hexaNum1[i%4] = exp1[i-1];
-        hexaNum2[i%4] = exp2[i-1];
-        hexaNumResul[i%4] = expResul[i-1];
+    if (i == 0) {
+      num1BinString.push_back(IEEnum1.getSigno() + '0');
+      num2BinString.push_back(IEEnum2.getSigno() + '0');
+      resulBinString.push_back(IEEresul.getSigno() + '0');
+      hexaNum1[0] = IEEnum1.getSigno();
+      hexaNum2[0] = IEEnum2.getSigno();
+      hexaNumResul[0] = IEEresul.getSigno();
+    } else if (i < 9) {
+      num1BinString.push_back(exp1[i - 1] + '0');
+      num2BinString.push_back(exp2[i - 1] + '0');
+      resulBinString.push_back(expResul[i - 1] + '0');
+      hexaNum1[i % 4] = exp1[i - 1];
+      hexaNum2[i % 4] = exp2[i - 1];
+      hexaNumResul[i % 4] = expResul[i - 1];
     } else {
-        num1BinString.push_back(man1[i-9]+'0');
-        num2BinString.push_back(man2[i-9]+'0');
-        resulBinString.push_back(manResul[i-9]+'0');
-        hexaNum1[i%4] = man1[i-9];
-        hexaNum2[i%4] = man2[i-9];
-        hexaNumResul[i%4] = manResul[i-9];
+      num1BinString.push_back(man1[i - 9] + '0');
+      num2BinString.push_back(man2[i - 9] + '0');
+      resulBinString.push_back(manResul[i - 9] + '0');
+      hexaNum1[i % 4] = man1[i - 9];
+      hexaNum2[i % 4] = man2[i - 9];
+      hexaNumResul[i % 4] = manResul[i - 9];
     }
   }
   hex1 += conversorHexadecimal(hexaNum1);
@@ -141,28 +136,35 @@ int *visualizar::conversorBinario(int decimal, int tam) {
   return binario;
 }
 
-QString visualizar::conversorHexadecimal(int binario[]){
-    int resultado = 0;
-    int cont = 3;
-    for(int i = 0; i<4; i++){
-        if(binario[i] == 1){
-            resultado += pow(2, cont);
-        }
-        cont--;
+QString visualizar::conversorHexadecimal(int binario[]) {
+  int resultado = 0;
+  int cont = 3;
+  for (int i = 0; i < 4; i++) {
+    if (binario[i] == 1) {
+      resultado += pow(2, cont);
     }
-    switch(resultado){
-    case 10: return "A";
-        break;
-    case 11: return "B";
-        break;
-    case 12: return "C";
-        break;
-    case 13: return "D";
-        break;
-    case 14: return "E";
-        break;
-    case 15: return "F";
-        break;
-    default: return QString::number(resultado);
-    }
+    cont--;
+  }
+  switch (resultado) {
+  case 10:
+    return "A";
+    break;
+  case 11:
+    return "B";
+    break;
+  case 12:
+    return "C";
+    break;
+  case 13:
+    return "D";
+    break;
+  case 14:
+    return "E";
+    break;
+  case 15:
+    return "F";
+    break;
+  default:
+    return QString::number(resultado);
+  }
 }

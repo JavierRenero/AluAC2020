@@ -56,12 +56,12 @@ void MainWindow::on_calcularButton_clicked() {
     int mantisaB = ieeConverterB.getFraccionaria();
     QString resultado;
     if (ui->signoBox->currentText() == "+") {
-      if(textoA.toFloat() == -textoB.toFloat()){
-          resultado = "0";
+      if (textoA.toFloat() == -textoB.toFloat()) {
+        resultado = "0";
       } else {
-          Suma suma = Suma();
-          resultado = suma.realizarSuma(signoA, exponenteA, mantisaA, signoB,
-                                        exponenteB, mantisaB);
+        Suma suma = Suma();
+        resultado = suma.realizarSuma(signoA, exponenteA, mantisaA, signoB,
+                                      exponenteB, mantisaB);
       }
       this->v.setNum1(textoA);
       this->v.setNum2(textoB);
@@ -112,10 +112,10 @@ bool MainWindow::isNumber(string s) {
   if (regex_match(s, s_expr)) {
     return true;
   } else {
-      istringstream iss(s);
-      float num;
-      iss >> noskipws >> num;
-      return iss && iss.eof();
+    istringstream iss(s);
+    float num;
+    iss >> noskipws >> num;
+    return iss && iss.eof();
   }
 }
 void MainWindow::on_conversionesBUtton_clicked() {
@@ -123,6 +123,7 @@ void MainWindow::on_conversionesBUtton_clicked() {
     this->v.setModal(true);
     this->v.setText();
     this->v.exec();
+    pase = false;
   } else {
     QMessageBox mensaje;
     mensaje.setWindowIcon(QIcon(":/icon1.png"));
