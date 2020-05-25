@@ -21,7 +21,7 @@ public:
   void setResul(QString num1);
   void setText();
   int *conversorBinario(int decimal, int tam);
-
+  QString conversorHexadecimal(int binario[]);
 private:
   Ui::visualizar *ui;
   QString num1;
