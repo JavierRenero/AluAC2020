@@ -3,5 +3,7 @@
         <file>icon1.png</file>
         <file>fondo.jpg</file>
         <file>blanco.jpg</file>
+        <file>vacio.png</file>
+        <file>fondo1.jpg</file>
     </qresource>
 </RCC>

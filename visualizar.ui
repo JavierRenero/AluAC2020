@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>visualizar</class>
- <widget name="visualizar" class="QDialog">
-<property name="geometry">
+ <widget class="QDialog" name="visualizar">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -27,6 +28,7 @@
      <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
+     <underline>true</underline>
     </font>
    </property>
    <property name="title">
@@ -47,6 +49,7 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
+      <underline>true</underline>
      </font>
     </property>
     <property name="text">
@@ -71,6 +74,7 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
+      <underline>true</underline>
      </font>
     </property>
     <property name="readOnly">
@@ -86,6 +90,15 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Source Code Pro</family>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>false</underline>
+     </font>
+    </property>
     <property name="text">
      <string>IEE754:</string>
     </property>
@@ -93,11 +106,20 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>13</x>
       <y>110</y>
       <width>161</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Source Code Pro</family>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>false</underline>
+     </font>
     </property>
     <property name="text">
      <string>Hexadecimal:</string>
@@ -119,6 +141,7 @@
      <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
+     <underline>true</underline>
     </font>
    </property>
    <property name="title">
@@ -139,6 +162,7 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
+      <underline>true</underline>
      </font>
     </property>
     <property name="readOnly">
@@ -160,6 +184,7 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
+      <underline>true</underline>
      </font>
     </property>
     <property name="readOnly">
@@ -175,6 +200,15 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Source Code Pro</family>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>false</underline>
+     </font>
+    </property>
     <property name="text">
      <string>IEE754:</string>
     </property>
@@ -182,11 +216,20 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>13</x>
       <y>110</y>
       <width>161</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Source Code Pro</family>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>false</underline>
+     </font>
     </property>
     <property name="text">
      <string>Hexadecimal:</string>
@@ -208,6 +251,7 @@
      <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
+     <underline>true</underline>
     </font>
    </property>
    <property name="title">
@@ -228,6 +272,7 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
+      <underline>true</underline>
      </font>
     </property>
     <property name="readOnly">
@@ -249,6 +294,7 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
+      <underline>true</underline>
      </font>
     </property>
     <property name="readOnly">
@@ -264,6 +310,15 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Source Code Pro</family>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>false</underline>
+     </font>
+    </property>
     <property name="text">
      <string>IEE754:</string>
     </property>
@@ -271,11 +326,20 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>13</x>
       <y>110</y>
       <width>161</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Source Code Pro</family>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>false</underline>
+     </font>
     </property>
     <property name="text">
      <string>Hexadecimal:</string>

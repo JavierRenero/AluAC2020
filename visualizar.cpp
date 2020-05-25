@@ -1,15 +1,35 @@
 #include "visualizar.h"
-#include "ui_visualizar.h"
+#include "QIcon"
 #include "iee754converter.h"
-#include <sstream>
+#include "ui_visualizar.h"
 #include <math.h>
+#include <sstream>
 
 visualizar::visualizar(QWidget *parent) :
                                           QDialog(parent),
                                           ui(new Ui::visualizar)
 {
   ui->setupUi(this);
-  this->setWindowTitle("Conversiones");
+  this->setWindowTitle("ALU: CONVERSIONES");
+  this->setWindowIcon(QIcon(":/icon1.png"));
+  this->setMinimumSize(951, 606);
+  this->setMaximumSize(951, 606);
+  ui->groupBox->setStyleSheet("background-image:url(:vacio.png);");
+  ui->groupBox_2->setStyleSheet("background-image:url(:vacio.png);");
+  ui->groupBox_3->setStyleSheet("background-image:url(:vacio.png);");
+  ui->num1Hex->setStyleSheet("background-image:url(:blanco.jpg);");
+  ui->num2Hex->setStyleSheet("background-image:url(:blanco.jpg);");
+  ui->resulHex->setStyleSheet("background-image:url(:blanco.jpg);");
+  ui->num1Iee->setStyleSheet("background-image:url(:blanco.jpg);");
+  ui->num2Iee->setStyleSheet("background-image:url(:blanco.jpg);");
+  ui->resulIee->setStyleSheet("background-image:url(:blanco.jpg);");
+  ui->num1Hex->setAlignment(Qt::AlignCenter);
+  ui->num2Hex->setAlignment(Qt::AlignCenter);
+  ui->resulHex->setAlignment(Qt::AlignCenter);
+  ui->num1Iee->setAlignment(Qt::AlignCenter);
+  ui->num2Iee->setAlignment(Qt::AlignCenter);
+  ui->resulIee->setAlignment(Qt::AlignCenter);
+  this->setStyleSheet("background-image:url(:fondo1.jpg);");
 }
 
 visualizar::~visualizar()
