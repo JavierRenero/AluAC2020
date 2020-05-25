@@ -49,8 +49,11 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
-      <underline>true</underline>
+      <underline>false</underline>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="text">
      <string/>
@@ -74,8 +77,11 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
-      <underline>true</underline>
+      <underline>false</underline>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="readOnly">
      <bool>true</bool>
@@ -162,8 +168,11 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
-      <underline>true</underline>
+      <underline>false</underline>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="readOnly">
      <bool>true</bool>
@@ -184,8 +193,11 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
-      <underline>true</underline>
+      <underline>false</underline>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="readOnly">
      <bool>true</bool>
@@ -272,8 +284,11 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
-      <underline>true</underline>
+      <underline>false</underline>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="readOnly">
      <bool>true</bool>
@@ -294,8 +309,11 @@
       <pointsize>14</pointsize>
       <weight>75</weight>
       <bold>true</bold>
-      <underline>true</underline>
+      <underline>false</underline>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="readOnly">
      <bool>true</bool>
