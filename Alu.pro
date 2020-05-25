@@ -19,15 +19,18 @@ SOURCES += \
     iee754converter.cpp \
     main.cpp \
     mainwindow.cpp \
-    operaciones.cpp
+    operaciones.cpp \
+    visualizar.cpp
 
 HEADERS += \
     iee754converter.h \
     mainwindow.h \
-    operaciones.h
+    operaciones.h \
+    visualizar.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    visualizar.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

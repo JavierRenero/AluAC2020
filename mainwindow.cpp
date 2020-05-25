@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
   ui->numberTwoText->setStyleSheet("background-image:url(:blanco.jpg);");
   ui->resultText->setStyleSheet("background-image:url(:blanco.jpg);");
   ui->calcularButton->setStyleSheet("background-image:url(:blanco.jpg);");
+  ui->conversionesBUtton->setStyleSheet("background-image:url(:blanco.jpg);");
   this->setStyleSheet("background-image:url(:fondo.jpg);");
 }
 MainWindow::~MainWindow() { delete ui; }
@@ -62,15 +63,23 @@ void MainWindow::on_calcularButton_clicked() {
           resultado = suma.realizarSuma(signoA, exponenteA, mantisaA, signoB,
                                         exponenteB, mantisaB);
       }
+      this->v->setNum1(textoA);
+      this->v->setNum2(textoB);
+      this->v->setResul(resultado);
+      pase = true;
       ui->resultText->setText(resultado);
     } else if (ui->signoBox->currentText() == "x") {
       if (textoA.toFloat() == 0 || textoB.toFloat() == 0) {
         resultado = "0";
       } else {
         Multiplicacion multiplicacion = Multiplicacion();
-        resultado = multiplicacion.realizarMultiplicacion(signoA, exponenteA, mantisaA,
-                                                signoB, exponenteB, mantisaB);
+        resultado = multiplicacion.realizarMultiplicacion(
+            signoA, exponenteA, mantisaA, signoB, exponenteB, mantisaB);
       }
+      this->v->setNum1(textoA);
+      this->v->setNum2(textoB);
+      this->v->setResul(resultado);
+      pase = true;
       ui->resultText->setText(resultado);
     } else if (ui->signoBox->currentText() == "÷") {
       if (textoA.toFloat() == 0 && textoB.toFloat() != 0) {
@@ -80,6 +89,10 @@ void MainWindow::on_calcularButton_clicked() {
         resultado = div.realizarDivision(signoA, exponenteA, mantisaA, signoB,
                                          exponenteB, mantisaB);
       }
+      this->v->setNum1(textoA);
+      this->v->setNum2(textoB);
+      this->v->setResul(resultado);
+      pase = true;
       ui->resultText->setText(resultado);
     } else {
       QMessageBox mensaje;
@@ -102,5 +115,19 @@ bool MainWindow::isNumber(string s) {
       float num;
       iss >> noskipws >> num;
       return iss && iss.eof();
+  }
+}
+void MainWindow::on_conversionesBUtton_clicked() {
+  if (pase) {
+    this->hide();
+    this->v->setModal(true);
+    this->v->exec();
+  } else {
+    QMessageBox mensaje;
+    mensaje.setWindowIcon(QIcon(":/icon1.png"));
+    mensaje.setWindowTitle("ERROR");
+    mensaje.setIcon(QMessageBox::Critical);
+    mensaje.setText("TIENE QUE HABER HECHO UNA OPERACIÓN!");
+    mensaje.exec();
   }
 }

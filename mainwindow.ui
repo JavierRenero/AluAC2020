@@ -155,6 +155,19 @@
      </property>
     </item>
    </widget>
+   <widget class="QPushButton" name="conversionesBUtton">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>180</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Conversiones</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
